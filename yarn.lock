@@ -4369,6 +4369,17 @@ react-interactive:
     detect-it "^2.0.0"
     object-assign "^4.1.0"
 
+react-native-action-button:
+  version "2.0.22"
+  resolved "https://registry.yarnpkg.com/react-native-action-button/-/react-native-action-button-2.0.22.tgz#af7829149e1ade853a2983eb20b7d9f619c952d5"
+
+react-native-vector-icons:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.0.0.tgz#6a2f8f4c6ace613aed7748cd530809283e5b1538"
+  dependencies:
+    lodash "^4.0.0"
+    yargs "^6.3.0"
+
 react-native-web:
   version "0.0.70"
   resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.0.70.tgz#c57dcf4e503171989a623ffd2d13b76ad3d5ad51"

@@ -44,29 +44,18 @@ const styles = StyleSheet.create({
       borderColor: '#3B5699',
       borderWidth: 2
   },
-  buttonBlueText: {
-      fontSize: 20,
-      color: '#3B5699'
-  },
-  buttonBigText: {
-      fontSize: 20,
-      fontWeight: 'bold'
-  },
   inline: {
       flexDirection: 'row'
   },
   buttonWhiteText: {
       fontSize: 20,
       color: '#FFF',
-  },
-  buttonBlackText: {
-      fontSize: 20,
-      color: '#595856'
+      justifyContent: 'center',
+      alignItems: 'center',
   },
   primaryButton: {
       height: 34,
       borderRadius: 5,
-      padding: 10,
       backgroundColor: '#039BE5'
   },
   logo: {

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
       height: 100,
       width: 100,
       borderRadius: 100,
-      padding: 10,
+      padding: 35,
       backgroundColor: '#039BE5'
   },
   footer: {
@@ -35,7 +35,10 @@ class ToggleSift extends Component {
     this.state = {
       toggle: true,
       dateTimestamp : Date.now(),
-      shifts: []
+      lat: '',
+      long: '',
+      shifts: [],
+      error: false
     };
 
     // This binding is necessary to make `this` work in the callback
@@ -53,37 +56,40 @@ class ToggleSift extends Component {
     navigator.geolocation.getCurrentPosition(
       (position) => {
 
-        this.setState({
-          toggle: !this.state.toggle
-        });
-
-        let toggle = this.state.toggle ? 'I' : 'O';
-        let restoredSession = JSON.parse(localStorage.getItem('session'));
-
-        let schedule = {
-          employeePinCode: restoredSession.employeeCode,
-          employeeExportID: restoredSession.employeeCode,
-          employeeName: restoredSession.firstname + ' ' + restoredSession.surname,
-          eventDate: moment().format(),
-          direction: toggle,
-          deviceSN: 'MOBILEAPP',
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          accId: restoredSession.employeeCode,
-          guid: '570eaa48-19fb-4862-b0af-1be3344e7549'
-        };
-
-        this.state.shifts.push(JSON.stringify(schedule));
-
-        this.setState({
-          shifts: this.state.shifts
-        });
-
-        api.setClock(schedule);
+        this.setState({ lat: position.coords.latitude })
+        this.setState({ lon: position.coords.longitude })
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
+
+    this.setState({
+      toggle: !this.state.toggle
+    });
+
+    let toggle = this.state.toggle ? 'I' : 'O';
+    let restoredSession = JSON.parse(localStorage.getItem('session'));
+
+    let schedule = {
+      employeePinCode: restoredSession.employeeCode,
+      employeeExportID: restoredSession.employeeCode,
+      employeeName: restoredSession.firstname + ' ' + restoredSession.surname,
+      eventDate: moment().format(),
+      direction: toggle,
+      deviceSN: 'MOBILEAPP',
+      latitude: this.state.lat,
+      longitude: this.state.lat,
+      accId: restoredSession.employeeCode,
+      guid: '570eaa48-19fb-4862-b0af-1be3344e7549'
+    };
+
+    this.state.shifts.push(JSON.stringify(schedule));
+
+    this.setState({
+      shifts: this.state.shifts
+    });
+
+    api.setClock(schedule);
   }
 
   tick = () => this.setState({

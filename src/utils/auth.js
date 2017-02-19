@@ -10,7 +10,7 @@ var auth = {
     }
     pretendRequest(username, pass, (res) => {
       if (res.authenticated) {
-        
+
         localStorage.setItem('token', JSON.stringify(res.token));
         if (cb) cb(true)
         this.onChange(true)
@@ -27,7 +27,7 @@ var auth = {
 
   logout(cb) {
     delete localStorage.token
-    if (cb) cb()
+    delete localStorage.session
     this.onChange(false)
   },
 

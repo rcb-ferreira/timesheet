@@ -4,6 +4,9 @@ import '../../styles/timesheet.css';
 // 3rd party
 import moment from 'moment';
 
+// utils
+import api from '../../utils/api';
+
 import {
   StyleSheet
 } from 'react-native'
@@ -41,6 +44,8 @@ export class Login extends React.Component {
       toggle: true,
       lat: '',
       long: '',
+      error: '',
+      success: '',
       shifts: []
     }
 
@@ -71,7 +76,7 @@ export class Login extends React.Component {
     let toggle = this.state.toggle ? 'I' : 'O';
     let restoredSession = JSON.parse(localStorage.getItem('session'));
 
-    data.push({
+    let schedule = {
       employeePinCode: restoredSession.employeeCode,
       employeeExportID: restoredSession.employeeCode,
       employeeName: restoredSession.firstname + ' ' + restoredSession.surname,
@@ -83,9 +88,21 @@ export class Login extends React.Component {
       accId: restoredSession.employeeCode,
       guid: '570eaa48-19fb-4862-b0af-1be3344e7549',
       checkIn: this.state.toggle
-    })
+    };
+
+    data.push(schedule)
 
     this.setState({ shifts: data });
+
+    api.setClock(schedule)
+      .then(function (response) {
+
+        this.setState({ success: 'Successfully sync to server' })
+      })
+      .catch(function (error) {
+
+        this.setState({ error: 'error' })
+      });
 
     e.preventDefault();
   }
@@ -96,6 +113,10 @@ export class Login extends React.Component {
       <div className="timesheet">
 
         {this.state.error && (
+          <p>{this.state.error}</p>
+        )}
+
+        {this.state.success && (
           <p>{this.state.error}</p>
         )}
 

@@ -3,7 +3,7 @@
   "short_name": "Time management app",
   "theme_color": "#039be5",
   "background_color": "#039be5",
-  "display": "browser",
+  "display": "standalone",
   "Scope": "/timesheet/",
   "start_url": "/timesheet/",
   "icons": [

@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import App from './App';
+import './styles/index.css';
 
-import { browserHistory } from 'react-router';
-import Routes from './routes';
+import {hashHistory} from 'react-router'
+import makeRoutes from './routes'
+
+const routes = makeRoutes()
 
 ReactDOM.render(
- <Routes history={browserHistory} />,
- document.getElementById('root')
+  <App history={hashHistory}
+      routes={routes} />,
+  document.getElementById('root')
 );

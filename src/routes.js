@@ -1,32 +1,16 @@
-import React from 'react';
-import { Router, Route, IndexRoute} from 'react-router';
+import React from 'react'
+import {Route} from 'react-router'
 
-import auth from './utils/auth';
+import makeMainRoutes from './views/Main/routes'
 
-import App from './App';
-import Login from './pages/Login/Login';
-import Time from './pages/Time/Time';
-import NotFound from './pages/Error/NotFound';
+export const makeRoutes = () => {
+  const main = makeMainRoutes();
 
-function requireAuth(nextState, replace) {
-  console.log(auth.loggedIn());
-  if (!auth.loggedIn()) {
-    replace({
-      pathname: '/login',
-      state: { nextPathname: nextState.location.pathname }
-    })
-  }
+  return (
+    <Route path=''>
+      {main}
+    </Route>
+  )
 }
 
-const Routes = (props) => (
- <Router {...props}>
-   <Route path="/" mapMenuTitle="Time" component={App}>
-      <IndexRoute component={Time}/>
-      <Route path="/login" component={Login}/>
-      // <Route path="/time" component={Time} />
-      <Route path="*" component={Time} onEnter={requireAuth}/>
-   </Route>
- </Router>
-);
-
-export default Routes;
+export default makeRoutes

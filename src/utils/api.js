@@ -21,7 +21,6 @@ let api = {
     if (localStorage.user && token) {
       return localStorage.user;
     } else  {
-
       let bearer = `Bearer ${token}`;
 
       let options = {

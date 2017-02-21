@@ -37,7 +37,6 @@ let api = {
   },
 
   setClock: function (data) {
-    console.log(data);
 
     let xml = `<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body>
@@ -56,9 +55,8 @@ let api = {
       </soap:Body>
     </soap:Envelope>`;
 
-    // baseURL: 'http://172.18.2.97',
     let options = {
-      baseURL: 'https://elms.adcorp.co.za',
+      baseURL: 'http://172.18.2.97',
       url: '/apiservice.asmx?op=setERSClocks',
       headers: {
         'Content-Type': 'text/xml'

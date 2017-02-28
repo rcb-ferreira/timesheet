@@ -1,10 +1,10 @@
 import Base from './components/Base';
 import Week from './components/Time/Week';
+import Total from './components/Time/Total';
 import TimePage from './containers/Time/TimePage';
 import TimesheetPage from './containers/Time/TimesheetPage';
 import NotFoundPage from './containers/Error/NotFoundPage';
 import LoginPage from './containers/Login/LoginPage';
-
 
 import Auth from './routes/auth';
 
@@ -50,7 +50,7 @@ const routes = {
 
     {
       path: '/timesheet',
-      component: TimesheetPage,
+      component: Total,
       title: 'Timesheet - Overview'
     },
 

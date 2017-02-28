@@ -3,35 +3,31 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
   from 'material-ui/Table';
 
 const styles = {
-  tabColumn: {
-    height: '115px',
-    textAlign: 'center'
-  },
-  tableHeader: {
-    textAlign: 'center'
+  cellHeight: {
+    height: 115
   }
 };
 
 const tableData = [
   {
     name: 'Start',
-    status: '08: 00 am'
+    status: '08:00 am'
   },
   {
     name: 'Break',
-    status: '12: 00 pm'
+    status: '12:00 pm'
   },
   {
     name: 'End',
     status: '18:00 pm'
   },
   {
-    name: 'Normal hours',
-    status: '12'
+    name: 'Normal Time',
+    status: '12h'
   },
   {
     name: 'Overtime',
-    status: '2'
+    status: '2h'
   }
 ];
 
@@ -42,9 +38,6 @@ export default class TableDay extends React.Component {
 
     this.state = {
       fixedHeader: true,
-      fixedFooter: true,
-      stripedRows: true,
-      height: '600px',
     };
   }
 
@@ -59,31 +52,29 @@ export default class TableDay extends React.Component {
   render() {
     return (
       <div>
-        <Table
-          height={this.state.height}
-          fixedHeader={this.state.fixedHeader}
-          fixedFooter={this.state.fixedFooter}
-        >
+        <Table>
           <TableHeader
             displaySelectAll={false}
             adjustForCheckbox={false}
           >
             <TableRow>
-              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">Fri 24 Feb 2017
-              </TableHeaderColumn>
+              <TableHeaderColumn tooltip="Select another day">24 Feb 2017</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
             displayRowCheckbox={false}
-            stripedRows={this.state.stripedRows}
+            stripedRows={true}
           >
             {tableData.map( (row, index) => (
-              <TableRow key={index}>
-                <TableRowColumn style={styles.tabColumn}>
-                {row.name} &nbsp; {row.status}
-                </TableRowColumn>
+              <TableRow style={styles.cellHeight}>
+                  <TableRowColumn key={index}>
+                  {row.name}
+                  </TableRowColumn>
+                  <TableRowColumn key={index}>
+                  {row.status}
+                  </TableRowColumn>
               </TableRow>
-              ))}
+            ))}
           </TableBody>
         </Table>
       </div>

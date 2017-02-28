@@ -5,47 +5,43 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 // import moment from 'moment';
 
 const styles = {
-  tabColumn: {
-    height: '70px',
-    textAlign: 'center'
-  },
-  tableHeader: {
-    textAlign: 'center'
+  cellHeight: {
+    height: 70
   }
 };
 
 const tableData = [
   {
     date: '20 Feb 2017',
-    status: '8'
+    status: '8h'
   },
   {
     date: '21 Feb 2017',
-    status: '8'
+    status: '8h'
   },
   {
     date: '22 Feb 2017',
-    status: '8'
+    status: '8h'
   },
   {
     date: '23 Feb 2017',
-    status: '8'
+    status: '8h'
   },
   {
     date: '24 Feb 2017',
-    status: '5'
+    status: '5h'
   },
   {
     date: '25 Feb 2017',
-    status: '8'
+    status: '8h'
   },
   {
     date: '26 Feb 2017',
-    status: '8'
+    status: '8h'
   },
   {
     date: '27 Feb 2017',
-    status: '8'
+    status: '8h'
   },
 ];
 
@@ -83,21 +79,26 @@ export default class TableDay extends React.Component {
             adjustForCheckbox={false}
           >
             <TableRow>
-              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">Mon 20 Feb 2017 - Mon 27 Feb 2017
+              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">Mon 20 Feb 2017
+              </TableHeaderColumn>
+              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">Mon 27 Feb 2017
               </TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
             displayRowCheckbox={false}
-            stripedRows={this.state.stripedRows}
+            stripedRows={true}
           >
             {tableData.map( (row, index) => (
-              <TableRow key={index}>
-                <TableRowColumn style={styles.tabColumn}>
-                {row.date} &nbsp; {row.status}
-                </TableRowColumn>
+              <TableRow style={styles.cellHeight}>
+                  <TableRowColumn key={index}>
+                  {row.date}
+                  </TableRowColumn>
+                  <TableRowColumn key={index}>
+                  {row.status}
+                  </TableRowColumn>
               </TableRow>
-              ))}
+            ))}
           </TableBody>
         </Table>
       </div>

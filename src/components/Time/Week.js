@@ -53,8 +53,6 @@ export default class TableDay extends React.Component {
     super(props);
 
     const maxDate = new Date();
-    maxDate.setFullYear(maxDate.getFullYear());
-    maxDate.setHours(0, 0, 0, 0);
 
     this.state = {
       maxDate: maxDate,
@@ -72,8 +70,12 @@ export default class TableDay extends React.Component {
     });
   };
 
-  formatDate(date){
+  toDate(date){
     return moment(date).format("ddd, MMM DD YYYY");
+  }
+
+  fromDate(date){
+    return moment(date).subtract(7, 'days').format("ddd, MMM DD YYYY");
   }
 
   render() {
@@ -98,7 +100,7 @@ export default class TableDay extends React.Component {
                   onChange={this.handleChangeMaxDate}
                   autoOk={this.state.autoOk}
                   defaultDate={this.state.maxDate}
-                  formatDate={this.formatDate}
+                  formatDate={this.fromDate}
                 />
 
               </TableHeaderColumn>
@@ -111,7 +113,7 @@ export default class TableDay extends React.Component {
                   onChange={this.handleChangeMaxDate}
                   autoOk={this.state.autoOk}
                   defaultDate={this.state.maxDate}
-                  formatDate={this.formatDate}
+                  formatDate={this.toDate}
                 />
 
               </TableHeaderColumn>

@@ -3,10 +3,6 @@ import TableDay from '../../components/Time/Day';
 
 class TableExampleComplex extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <TableDay/>

@@ -2,7 +2,9 @@ import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
 
-// import moment from 'moment';
+import DatePicker from 'material-ui/DatePicker';
+
+import moment from 'moment';
 
 const styles = {
   cellHeight: {
@@ -50,7 +52,12 @@ export default class TableDay extends React.Component {
   constructor(props) {
     super(props);
 
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear());
+    maxDate.setHours(0, 0, 0, 0);
+
     this.state = {
+      maxDate: maxDate,
       fixedHeader: true,
       fixedFooter: true,
       stripedRows: true,
@@ -58,13 +65,16 @@ export default class TableDay extends React.Component {
     };
   }
 
-  handleToggle = (event, toggled) => {
+  handleChangeMaxDate = (event, date) => {
 
+    this.setState({
+      maxDate: date,
+    });
   };
 
-  handleChange = (event) => {
-    this.setState({height: event.target.value});
-  };
+  formatDate(date){
+    return moment(date).format("ddd, MMM DD YYYY");
+  }
 
   render() {
     return (
@@ -79,9 +89,31 @@ export default class TableDay extends React.Component {
             adjustForCheckbox={false}
           >
             <TableRow>
-              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">Mon 20 Feb 2017
+              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">
+
+              <DatePicker
+                  className="DatePicker"
+                  container="inline"
+                  floatingLabelText="From"
+                  onChange={this.handleChangeMaxDate}
+                  autoOk={this.state.autoOk}
+                  defaultDate={this.state.maxDate}
+                  formatDate={this.formatDate}
+                />
+
               </TableHeaderColumn>
-              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">Mon 27 Feb 2017
+              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">
+
+              <DatePicker
+                  className="DatePicker"
+                  container="inline"
+                  floatingLabelText="To"
+                  onChange={this.handleChangeMaxDate}
+                  autoOk={this.state.autoOk}
+                  defaultDate={this.state.maxDate}
+                  formatDate={this.formatDate}
+                />
+
               </TableHeaderColumn>
             </TableRow>
           </TableHeader>
@@ -90,11 +122,11 @@ export default class TableDay extends React.Component {
             stripedRows={true}
           >
             {tableData.map( (row, index) => (
-              <TableRow style={styles.cellHeight}>
-                  <TableRowColumn key={index}>
+              <TableRow key={index} style={styles.cellHeight}>
+                  <TableRowColumn>
                   {row.date}
                   </TableRowColumn>
-                  <TableRowColumn key={index}>
+                  <TableRowColumn>
                   {row.status}
                   </TableRowColumn>
               </TableRow>

@@ -1,121 +1,78 @@
-/*@import "https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900";*/
 body {
-  background-image: url(https://azadfs.adcorp.net/adfs/portal/illustration/illustration.png?id=183128A3C941EDE3D9199FA37D6AA90E0A7DFE101B37D10B4FEDA0CF35E11AFD);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: #3E363F;
-  font-family: "Lato", sans-serif;
-  height: 100vh;
-  overflow: hidden;
+  margin: 0;
+  font-size: 16px;
 }
 
-.Modal {
-  background: #71abe7;
-  border-radius: 2px;
-  padding: 20px;
-  width: 200px;
+a {
+  color: #00bcd4;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.4s;
 }
 
-::-webkit-input-placeholder {
-   color: #FFF;
+a:hover {
+  color: #1976d2;
 }
 
-:-moz-placeholder { /* Firefox 18- */
-   color: #FFF;
+.text-center {
+  text-align: center;
 }
 
-::-moz-placeholder {  /* Firefox 19+ */
-   color: #FFF;
+.top-bar {
+  padding: 10px 15px;
+  margin-bottom: 50px;
+}
+.top-bar::after {
+  content: '';
+  display: block;
+  clear: both;
 }
 
-:-ms-input-placeholder {
-   color: #FFF;
+.top-bar-left {
+  float: left;
+  font-size: 1.5em;
 }
 
-.Input {
-  display: flex;
-  flex-direction: row-reverse;
-  border-bottom: 1px solid rgba(255, 252, 232, 0.1);
-  padding-bottom: 3px;
-  margin-bottom: 15px;
-}
-.Input input {
-  outline: none;
-  border: 0;
-  color: #FFF;
-  background: transparent;
-  font-family: "Lato", sans-serif;
-  flex: 1 0 auto;
-  font-size: 14px;
-  font-weight: 300;
-}
-.Input input:focus ~ label {
-  opacity: 1;
-}
-.Input label {
-  font-family: FontAwesome;
-  font-size: 13px;
-  opacity: .1;
-  transition: opacity .5s ease;
-}
-.Input label::before {
-  align-items: center;
-  color: #FFF;
-  display: flex;
-  height: 30px;
-  justify-content: center;
-  width: 30px;
+.top-bar-right {
+  float: right;
 }
 
-button {
-  align-items: center;
-  color: #fff;
-  background-color: #039BE5;
-  border-color: #269abc;
-  border: 0;
-  border-radius: 3px;
-  display: flex;
-  font-family: "Lato", sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  justify-content: center;
-  margin-top: 20px;
-  outline: none;
-  padding: 10px 9px 10px 11px;
-  text-transform: uppercase;
-  width: 100%;
-  text-align:center;
-}
-button .fa {
-  font-size: 12px;
-  margin-left: auto;
-  position: relative;
-  top: 1px;
-}
-button:hover {
-  transform: scale(1.02);
-}
-button:active {
-  transform: scale(0.99);
+.top-bar a,
+.nav a {
+  margin: 0 8px;
 }
 
-.example-enter {
-  margin-top: 30px;
-  opacity: .01;
-}
-.example-enter.example-enter-active {
-  margin-top: 0px;
-  opacity: 1;
-  transition: opacity .5s ease, margin .5s ease;
+.container {
+  margin: 0 auto;
+  text-align: center;
+  width: 50%;
 }
 
-.example-leave {
-  margin-top: 0px;
-  opacity: 1;
+.card-heading {
+  padding: 16px;
 }
-.example-leave.example-leave-active {
-  margin-top: -30px;
-  opacity: .01;
-  transition: opacity .3s ease, margin .5s ease;
+
+.field-line, .button-line {
+  padding: 16px;
+}
+
+.error-message {
+  padding: 0 16px;
+  color: tomato;
+}
+
+.success-message {
+  padding: 0 16px;
+  color: green;
+}
+
+
+/* ----------------- */
+/* RESPONSIVE DESIGN */
+/* ----------------- */
+/* Smaller screens - <=767px */
+@media (max-width: 767px) {
+  .container {
+    width: 100%;
+  }
 }

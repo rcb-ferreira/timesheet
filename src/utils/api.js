@@ -56,7 +56,7 @@ let api = {
     </soap:Envelope>`;
 
     let options = {
-      baseURL: 'http://172.18.2.97',
+      baseURL: 'https://elms.adcorp.co.za/',
       url: '/apiservice.asmx?op=setERSClocks',
       headers: {
         'Content-Type': 'text/xml'

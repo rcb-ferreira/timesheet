@@ -1,31 +1,27 @@
-import React, { PropTypes } from 'react';
-import { Router } from 'react-router';
+import React, { Component } from 'react';
 
-class App extends React.Component {
-  static contextTypes = {
-    router: PropTypes.object
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MyAwesomeReactComponent from './components/MyAwesomeReactComponent';
+
+import AvatarExampleSimple from './components/Avatar';
+
+class App extends Component {
+  constructor() {
+    super();
+    this._handlePress = this._handlePress.bind(this);
   }
 
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-    routes: PropTypes.element.isRequired
-  };
+  _handlePress() {
+    console.log("Can't touched this?");
+  }
 
-  get content() {
+  render() {
     return (
-      <Router
-        routes={this.props.routes}
-        history={this.props.history} />
-    )
+      <MuiThemeProvider>
+        <MyAwesomeReactComponent />
+      </MuiThemeProvider>
+    );
   }
-
-  render () {
-     return (
-       <div style={{ height: '100%' }}>
-         {this.content}
-       </div>
-     )
-   }
 }
 
 export default App;

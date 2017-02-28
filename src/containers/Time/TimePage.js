@@ -1,47 +1,40 @@
-import React from 'react';
-import '../../styles/timesheet.css';
+import React, { Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import LinearProgress from 'material-ui/LinearProgress';
 
-// 3rd party
+import TableClock from '../../components/Time/ListClocks';
+
+// 3rd party lib
 import moment from 'moment';
 
 // utils
 import api from '../../utils/api';
 
-import {
-  StyleSheet
-} from 'react-native'
-
-// Components
-import Schedule from '../../components/List/Schedule';
-import Button from '../../components/Button/Button';
-
-const data = [
-  {
-    employeeName: 'Timesheet manager',
-    checkIn: false
-  }
-];
-
-const styles = StyleSheet.create({
-  buttonWhiteText: {
-      fontSize: 20,
-      color: '#FFF',
+// Custom button styles
+const styles = {
+  btnClock: {
+    height: '100px',
+    width: '100%',
+    position: 'fixed',
+    bottom: 0
   },
-  primaryButton: {
-      height: 100,
-      width: 100,
-      borderRadius: 100,
-      padding: 35,
-      backgroundColor: '#039BE5'
+  btnTitle: {
+    color: '#FFF',
+    lineHeight: '100px'
   }
-});
+};
 
-export class Login extends React.Component {
+const data = [];
+
+class TableExampleComplex extends Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
       toggle: true,
+      disable: false,
+      completed: 0,
       lat: '',
       long: '',
       error: '',
@@ -49,11 +42,7 @@ export class Login extends React.Component {
       shifts: []
     }
 
-    this.clockShift = this.clockShift.bind(this)
-  }
-
-  getInitialState() {
-    return { mounted: false };
+    this.clockShift = this.clockShift.bind(this);
   }
 
   componentDidMount() {
@@ -92,7 +81,33 @@ export class Login extends React.Component {
 
     data.push(schedule)
 
-    this.setState({ shifts: data });
+
+    this.setState({
+      shifts: data,
+      disable: true
+    });
+
+    let timer = 0;
+
+    setInterval(function() {
+        if (timer > 60) {
+          return;
+        }
+
+        timer += 1;
+        this.setState({
+          completed: timer * 1.7
+        });
+
+        console.log(timer);
+      }.bind(this), 1000)
+
+    setInterval(function() {
+
+        this.setState({
+          disable: false
+        });
+      }.bind(this), 60000)
 
     api.setClock(schedule)
       .then(function (response) {
@@ -101,36 +116,31 @@ export class Login extends React.Component {
       })
       .catch(function (error) {
 
-        this.setState({ error: 'error' })
       });
 
     e.preventDefault();
   }
 
+  componentDidMount = () => {
+    this.setState({ shifts: data });
+  }
+
   render() {
+    return (
+      <div>
 
-    return(
-      <div className="timesheet">
+        <TableClock timesheets={this.state.shifts} />
 
-        {this.state.error && (
-          <p>{this.state.error}</p>
-        )}
+        <RaisedButton style={styles.btnClock} type="submit" fullWidth={true} onClick={this.clockShift} disabled={this.state.disable} primary>
 
-        {this.state.success && (
-          <p>{this.state.error}</p>
-        )}
+        <LinearProgress mode="determinate" value={this.state.completed} />
 
-        <Schedule timesheets={this.state.shifts}/>
+        <span style={styles.btnTitle}>CLOCK</span>
 
-        <div className="btn-wrapper">
-          <Button
-            label="Clock"
-            styles={{button: styles.primaryButton, label: styles.buttonWhiteText}}
-            onPress={this.clockShift} />
-        </div>
+        </RaisedButton>
       </div>
     );
   }
 }
 
-export default Login
+export default TableExampleComplex;

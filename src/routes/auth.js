@@ -1,13 +1,14 @@
-import api from './api';
+import api from '../utils/api';
 
 var auth = {
   login(username, pass, cb) {
     cb = arguments[arguments.length - 1]
-    if (localStorage.token) {
+    if (localStorage.getItem('token')) {
       if (cb) cb(true)
       this.onChange(true)
       return
     }
+
     pretendRequest(username, pass, (res) => {
       if (res.authenticated) {
 
@@ -22,17 +23,17 @@ var auth = {
   },
 
   getToken() {
-    return localStorage.token
+    return localStorage.getItem('token')
   },
 
-  logout(cb) {
-    delete localStorage.token
-    delete localStorage.session
+  logout() {
+    localStorage.removeItem('token')
+    localStorage.removeItem('session')
     this.onChange(false)
   },
 
   loggedIn() {
-    return !!localStorage.token
+    return localStorage.getItem('token') !== null;
   },
 
   onChange() {}
@@ -64,9 +65,10 @@ function pretendRequest(email, pass, cb) {
       }
     })
     .catch(function (error) {
-
       if (error) {
-        cb({ authenticated: false })
+        cb({
+          authenticated: false
+        })
       }
     })
 }

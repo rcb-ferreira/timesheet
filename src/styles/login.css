@@ -8,3 +8,19 @@
   top: 0;
   left: 0;
 }
+
+.Modal {
+  padding-top: 10px;
+}
+
+.login-logo {
+  margin: 0 auto;
+  width: 250px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+}
+
+.login-img {
+  width: 100%;
+}

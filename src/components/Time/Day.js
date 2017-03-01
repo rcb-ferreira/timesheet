@@ -1,14 +1,23 @@
 import React from 'react';
+
+import DateRange from 'material-ui/svg-icons/action/date-range';
+
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
 
 import DatePicker from 'material-ui/DatePicker';
+
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+
 
 import moment from 'moment';
 
 const styles = {
   cellHeight: {
     height: 115
+  },
+  iconStyle: {
+    float: 'right'
   }
 };
 
@@ -62,6 +71,11 @@ export default class TableDay extends React.Component {
     return moment(date).format("ddd, MMM DD YYYY");
   }
 
+  openDatePicker(event){
+    event.preventDefault();
+    this.refs.dp.openDialog()
+  }
+
   render() {
     return (
       <div>
@@ -71,9 +85,10 @@ export default class TableDay extends React.Component {
             adjustForCheckbox={false}
           >
             <TableRow>
-              <TableHeaderColumn tooltip="Select another day">
+              <TableHeaderColumn>
 
               <DatePicker
+                  ref='dp'
                   className="DatePicker"
                   container="inline"
                   onChange={this.handleChangeMaxDate}
@@ -81,6 +96,15 @@ export default class TableDay extends React.Component {
                   defaultDate={this.state.maxDate}
                   formatDate={this.formatDate}
                 />
+
+              </TableHeaderColumn>
+
+              <TableHeaderColumn>
+
+              <FloatingActionButton style={styles.iconStyle}
+              mini={true} onTouchTap={this.openDatePicker.bind(this)}>
+                <DateRange />
+              </FloatingActionButton>
 
               </TableHeaderColumn>
             </TableRow>

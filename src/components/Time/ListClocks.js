@@ -5,6 +5,13 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 // 3rd party lib
 import moment from 'moment';
 
+const styles = {
+  header: {
+    fontSize: 16,
+    color: '#333'
+  }
+};
+
 const TableClock = ({
   timesheets
 }) => (
@@ -18,8 +25,9 @@ const TableClock = ({
         adjustForCheckbox={false}
       >
         <TableRow>
-          <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
-          <TableHeaderColumn tooltip="The Clocked Time">Time</TableHeaderColumn>
+          <TableHeaderColumn >
+            <p style={styles.header}>{moment().format('ddd, MMM DD YYYY')}</p>
+          </TableHeaderColumn>
         </TableRow>
       </TableHeader>
       <TableBody
@@ -28,8 +36,8 @@ const TableClock = ({
       >
         {timesheets.map( (row, index) => (
           <TableRow key={index}>
-            <TableRowColumn>{row.employeeName}</TableRowColumn>
-            <TableRowColumn>{moment(row.eventDate).format('H:mm a')}</TableRowColumn>
+            <TableRowColumn>{row.checkIn ? 'IN' : 'OUT'}</TableRowColumn>
+            <TableRowColumn>{moment(row.eventDate).format('H:mm')}</TableRowColumn>
           </TableRow>
           ))}
       </TableBody>

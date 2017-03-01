@@ -47,8 +47,8 @@ export default class TableDay extends React.Component {
 
     api.getDay(day, JSON.parse(token))
       .then(res => {
+        
         const posts = res.data.result
-
         this.setState({ posts });
       })
       .catch(error => {

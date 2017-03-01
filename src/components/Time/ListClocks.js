@@ -16,7 +16,6 @@ const TableClock = ({
   timesheets
 }) => (
     <Table
-      height={'600px'}
       fixedHeader={true}
       fixedFooter={true}
     >

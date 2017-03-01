@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
 
+import { Card } from 'material-ui/Card';
+
 import TableClock from '../../components/Time/ListClocks';
 
 // 3rd party lib
@@ -14,7 +16,6 @@ import api from '../../utils/api';
 const styles = {
   btnClock: {
     height: '100px',
-    width: '100%',
     position: 'fixed',
     bottom: 0
   },
@@ -127,8 +128,7 @@ class TableExampleComplex extends Component {
 
   render() {
     return (
-      <div>
-
+      <Card>
         <TableClock timesheets={this.state.shifts} />
 
         <RaisedButton style={styles.btnClock} type="submit" fullWidth={true} onClick={this.clockShift} disabled={this.state.disable} primary>
@@ -138,7 +138,8 @@ class TableExampleComplex extends Component {
         <span style={styles.btnTitle}>CLOCK</span>
 
         </RaisedButton>
-      </div>
+
+      </Card>
     );
   }
 }

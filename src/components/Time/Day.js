@@ -16,6 +16,8 @@ import moment from 'moment';
 import api from '../../utils/api';
 import auth from '../../routes/auth';
 
+import Loader from '../Loader';
+
 const styles = {
   iconStyle: {
     float: 'right'
@@ -33,26 +35,19 @@ export default class TableDay extends React.Component {
 
     this.state = {
       posts: [],
-      fixedHeader: true,
       maxDate: maxDate,
-      autoOk: true
+      fixedHeader: true,
+      autoOk: true,
+      loading: true
     };
+
+    this.loadDay = this.loadDay.bind(this);
   }
 
   componentDidMount = () => {
 
     let day = '2017-02-28';
-    let token = auth.getToken();
-
-    api.getDay(day, JSON.parse(token))
-      .then(res => {
-
-        const posts = res.data.result
-        this.setState({ posts });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.loadDay(day);
   }
 
 
@@ -64,16 +59,7 @@ export default class TableDay extends React.Component {
 
     let day = moment(this.state.maxDate).format("YYYY-MM-DD");
 
-    let token = auth.getToken();
-    api.getDay(day, JSON.parse(token))
-      .then(res => {
-        const posts = res.data.result
-
-        this.setState({ posts });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.loadDay(day);
   };
 
   formatDate(date){
@@ -86,84 +72,108 @@ export default class TableDay extends React.Component {
     this.refs.dp.openDialog()
   }
 
+  loadDay(day) {
+
+    let token = auth.getToken();
+    this.setState({loading:true});
+
+    api.getDay(day, JSON.parse(token))
+      .then(res => {
+
+        const posts = res.data.result
+        this.setState({ posts, loading: false });
+
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ loading: false });
+      });
+  }
+
   render() {
+    const table = (<Table>
+      <TableHeader
+        displaySelectAll={false}
+        adjustForCheckbox={false}
+      >
+        <TableRow>
+          <TableHeaderColumn>
+
+          <DatePicker
+              ref='dp'
+              className="DatePicker"
+              container="inline"
+              onChange={this.handleChangeMaxDate}
+              autoOk={this.state.autoOk}
+              defaultDate={this.state.maxDate}
+              formatDate={this.formatDate}
+            />
+
+          </TableHeaderColumn>
+
+          <TableHeaderColumn>
+
+          <FloatingActionButton style={styles.iconStyle}
+          mini={true} onTouchTap={this.openDatePicker.bind(this)}>
+            <DateRange />
+          </FloatingActionButton>
+
+          </TableHeaderColumn>
+        </TableRow>
+      </TableHeader>
+
+      { this.state.posts.map((row, index) =>
+        <TableBody
+          key={index}
+          displayRowCheckbox={false}
+          stripedRows={true}
+        >
+          <TableRow >
+            <TableRowColumn>
+              <h3>Start</h3>
+            </TableRowColumn>
+            <TableRowColumn>
+              <p>{row.start}</p>
+            </TableRowColumn>
+          </TableRow>
+
+          <TableRow >
+            <TableRowColumn>
+              <h3>Break</h3>
+            </TableRowColumn>
+            <TableRowColumn>
+              <p>{row.break}</p>
+            </TableRowColumn>
+          </TableRow>
+
+          <TableRow >
+            <TableRowColumn>
+              <h3>Finish</h3>
+            </TableRowColumn>
+            <TableRowColumn>
+              <p>{row.finish}</p>
+            </TableRowColumn>
+          </TableRow>
+
+          <TableRow >
+            <TableRowColumn>
+              <h3>Total</h3>
+            </TableRowColumn>
+            <TableRowColumn>
+              <p>{row.total}</p>
+            </TableRowColumn>
+          </TableRow>
+
+        </TableBody>
+      )}
+    </Table>);
+
     return (
-      <Card>
-        <Table>
-          <TableHeader
-            displaySelectAll={false}
-            adjustForCheckbox={false}
-          >
-            <TableRow>
-              <TableHeaderColumn>
-
-              <DatePicker
-                  ref='dp'
-                  className="DatePicker"
-                  container="inline"
-                  onChange={this.handleChangeMaxDate}
-                  autoOk={this.state.autoOk}
-                  defaultDate={this.state.maxDate}
-                  formatDate={this.formatDate}
-                />
-
-              </TableHeaderColumn>
-
-              <TableHeaderColumn>
-
-              <FloatingActionButton style={styles.iconStyle}
-              mini={true} onTouchTap={this.openDatePicker.bind(this)}>
-                <DateRange />
-              </FloatingActionButton>
-
-              </TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-            {this.state.posts.map((row, index) =>
-              <TableBody
-                key={index}
-                displayRowCheckbox={false}
-                stripedRows={true}
-              >
-                <TableRow >
-                  <TableRowColumn>
-                    <h3>Start</h3>
-                  </TableRowColumn>
-                  <TableRowColumn>
-                    <p>{row.start}</p>
-                  </TableRowColumn>
-                </TableRow>
-
-                <TableRow >
-                  <TableRowColumn>
-                    <h3>Break</h3>
-                  </TableRowColumn>
-                  <TableRowColumn>
-                    <p>{row.break}</p>
-                  </TableRowColumn>
-                </TableRow>
-
-                <TableRow >
-                  <TableRowColumn>
-                    <h3>Finish</h3>
-                  </TableRowColumn>
-                  <TableRowColumn>
-                    <p>{row.finish}</p>
-                  </TableRowColumn>
-                </TableRow>
-
-                <TableRow >
-                  <TableRowColumn>
-                    <h3>Total</h3>
-                  </TableRowColumn>
-                  <TableRowColumn>
-                    <p>{row.total}</p>
-                  </TableRowColumn>
-                </TableRow>
-
-              </TableBody>
-            )}
-        </Table>
+      <Card className={ this.state.loading ? 'Login' : ''} >
+        {
+          this.state.loading ?
+          <Loader /> : table
+        }
       </Card>
     );
   }

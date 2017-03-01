@@ -155,7 +155,7 @@ export default class TableDay extends React.Component {
 
                 <TableRow >
                   <TableRowColumn>
-                    <h3>Finish</h3>
+                    <h3>Total</h3>
                   </TableRowColumn>
                   <TableRowColumn>
                     <p>{row.total}</p>

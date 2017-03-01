@@ -1,8 +1,10 @@
 import React from 'react';
+import {Card} from 'material-ui/Card';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
 
-import DatePicker from 'material-ui/DatePicker';
 
 import moment from 'moment';
 
@@ -11,6 +13,7 @@ const styles = {
     height: 70
   }
 };
+
 
 const tableData = [
   {
@@ -59,30 +62,16 @@ export default class TableDay extends React.Component {
       fixedHeader: true,
       fixedFooter: true,
       stripedRows: true,
-      height: '600px',
+      value: 1
     };
   }
 
-  handleChangeMaxDate = (event, date) => {
-
-    this.setState({
-      maxDate: date,
-    });
-  };
-
-  toDate(date){
-    return moment(date).format("ddd, MMM DD YYYY");
-  }
-
-  fromDate(date){
-    return moment(date).subtract(7, 'days').format("ddd, MMM DD YYYY");
-  }
+  handleChange = (event, index, value) => this.setState({value});
 
   render() {
     return (
-      <div>
+      <Card>
         <Table
-          height={this.state.height}
           fixedHeader={this.state.fixedHeader}
           fixedFooter={this.state.fixedFooter}
         >
@@ -91,31 +80,20 @@ export default class TableDay extends React.Component {
             adjustForCheckbox={false}
           >
             <TableRow>
-              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">
+              <TableHeaderColumn>
 
-              <DatePicker
-                  className="DatePicker"
-                  container="inline"
-                  floatingLabelText="From"
-                  onChange={this.handleChangeMaxDate}
-                  autoOk={this.state.autoOk}
-                  defaultDate={this.state.maxDate}
-                  formatDate={this.fromDate}
-                />
+              <SelectField
+                  floatingLabelText="Range"
+                  value={this.state.value}
+                  fullWidth={true}
+                  onChange={this.handleChange}
+                >
+                  <MenuItem value={1} primaryText="20 - 27 Feb 2017" />
+                  <MenuItem value={2} primaryText="13 - 19 Feb 2017" />
+                  <MenuItem value={3} primaryText="6 - 12 Feb 2017" />
+                  <MenuItem value={4} primaryText="1 - 5 Feb 2017" />
 
-              </TableHeaderColumn>
-              <TableHeaderColumn style={styles.tableHeader} tooltip="Clocked date">
-
-              <DatePicker
-                  className="DatePicker"
-                  container="inline"
-                  floatingLabelText="To"
-                  onChange={this.handleChangeMaxDate}
-                  autoOk={this.state.autoOk}
-                  defaultDate={this.state.maxDate}
-                  formatDate={this.toDate}
-                />
-
+                </SelectField>
               </TableHeaderColumn>
             </TableRow>
           </TableHeader>
@@ -124,7 +102,7 @@ export default class TableDay extends React.Component {
             stripedRows={true}
           >
             {tableData.map( (row, index) => (
-              <TableRow key={index} style={styles.cellHeight}>
+              <TableRow key={index}>
                   <TableRowColumn>
                   {row.date}
                   </TableRowColumn>
@@ -135,7 +113,7 @@ export default class TableDay extends React.Component {
             ))}
           </TableBody>
         </Table>
-      </div>
+      </Card>
     );
   }
 }

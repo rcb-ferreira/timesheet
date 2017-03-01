@@ -35,7 +35,7 @@ const TableClock = ({
       >
         {timesheets.map( (row, index) => (
           <TableRow key={index}>
-            <TableRowColumn>{row.checkIn ? 'IN' : 'OUT'}</TableRowColumn>
+            <TableRowColumn>{row.checkIn ? <h3>IN</h3> : <h3>OUT</h3>}</TableRowColumn>
             <TableRowColumn>{moment(row.eventDate).format('H:mm')}</TableRowColumn>
           </TableRow>
           ))}

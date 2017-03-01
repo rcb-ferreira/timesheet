@@ -9,7 +9,6 @@ import DatePicker from 'material-ui/DatePicker';
 import DateRange from 'material-ui/svg-icons/action/date-range';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
-
 // 3rd party Lib
 import moment from 'moment';
 
@@ -47,7 +46,7 @@ export default class TableDay extends React.Component {
 
     api.getDay(day, JSON.parse(token))
       .then(res => {
-        
+
         const posts = res.data.result
         this.setState({ posts });
       })

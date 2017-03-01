@@ -85,7 +85,7 @@ class DrawerUndockedExample extends Component {
           />
           <Divider />
           <MenuItem onTouchTap={this.handleClose}>
-            <Link to="/timesheet">Timesheet</Link>
+            <Link to="/timesheet/day">Timesheet</Link>
           </MenuItem>
           <MenuItem onTouchTap={this.handleClose}>
             <Link to="/clock">Clock</Link>

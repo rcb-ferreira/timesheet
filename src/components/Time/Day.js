@@ -169,7 +169,7 @@ export default class TableDay extends React.Component {
     </Table>);
 
     return (
-      <Card className={ this.state.loading ? 'Login' : ''} >
+      <Card className={ this.state.loading ? 'loader-wrapper' : ''} >
         {
           this.state.loading ?
           <Loader /> : table

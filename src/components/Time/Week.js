@@ -5,15 +5,13 @@ import MenuItem from 'material-ui/MenuItem';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
 
+// import moment from 'moment';
 
-import moment from 'moment';
-
-const styles = {
-  cellHeight: {
-    height: 70
-  }
-};
-
+// const styles = {
+//   cellHeight: {
+//     height: 70
+//   }
+// };
 
 const tableData = [
   {

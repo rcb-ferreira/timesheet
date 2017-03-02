@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
+import { Card } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
-
-import { Card } from 'material-ui/Card';
-
 import TableClock from '../../components/Time/ListClocks';
 
 // 3rd party lib
@@ -27,15 +25,15 @@ const styles = {
 
 const data = [];
 
+let timer = 0;
 class TableExampleComplex extends Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
+      completed: 0,
       toggle: true,
       disable: false,
-      completed: 0,
       lat: '',
       long: '',
       error: '',
@@ -44,10 +42,24 @@ class TableExampleComplex extends Component {
     }
 
     this.clockShift = this.clockShift.bind(this);
+    this.toggleButton = this.toggleButton.bind(this);
   }
 
   componentDidMount() {
-    this.setState({ shifts: data });
+    let getClockedTime = JSON.parse(localStorage.getItem('clockTime'));
+
+    if (Array.isArray(getClockedTime)) {
+      let getLength = getClockedTime.length - 1;
+      getClockedTime.map((obj) => (
+
+        data.push(obj)
+      ));
+
+      this.setState({
+        shifts: data,
+        toggle: data[getLength].checkIn ? false : false
+      })
+    }
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -61,6 +73,8 @@ class TableExampleComplex extends Component {
   }
 
   clockShift(e) {
+    e.preventDefault();
+
     this.setState({toggle: !this.state.toggle})
 
     let toggle = this.state.toggle ? 'I' : 'O';
@@ -82,33 +96,15 @@ class TableExampleComplex extends Component {
 
     data.push(schedule)
 
-
     this.setState({
       shifts: data,
       disable: true
     });
 
-    let timer = 0;
+    // Start clock to disable button
+    this.startTimer = setInterval(this.toggleButton, 1000);
 
-    setInterval(function() {
-        if (timer > 60) {
-          return;
-        }
-
-        timer += 1;
-        this.setState({
-          completed: timer * 1.7
-        });
-
-        console.log(timer);
-      }.bind(this), 1000)
-
-    setInterval(function() {
-
-        this.setState({
-          disable: false
-        });
-      }.bind(this), 60000)
+    localStorage.setItem('clockTime', JSON.stringify(data));
 
     api.setClock(schedule)
       .then(function (response) {
@@ -118,12 +114,22 @@ class TableExampleComplex extends Component {
       .catch(function (error) {
 
       });
-
-    e.preventDefault();
   }
 
-  componentDidMount = () => {
-    this.setState({ shifts: data });
+  toggleButton() {
+
+    timer += 1;
+    this.setState({ completed: timer * 1.7});
+
+    if (timer > 59) {
+      this.setState({ disable: false});
+      clearInterval(this.startTimer);
+    }
+  }
+
+  componentWillUnmount() {
+
+    clearInterval(this.state.completed);
   }
 
   render() {

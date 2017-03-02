@@ -12,10 +12,13 @@ const styles = {
   }
 };
 
+const winHeight = window.innerHeight - 225;
+
 const TableClock = ({
   timesheets
 }) => (
     <Table
+      height={winHeight}
       fixedHeader={true}
       fixedFooter={true}
     >

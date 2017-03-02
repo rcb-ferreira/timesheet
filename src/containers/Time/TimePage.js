@@ -46,6 +46,20 @@ class TableExampleComplex extends Component {
   }
 
   componentDidMount() {
+    let getClockedTime = JSON.parse(localStorage.getItem('clockTime'));
+
+    if (Array.isArray(getClockedTime)) {
+      let getLength = getClockedTime.length - 1;
+      getClockedTime.map((obj) => (
+
+        data.push(obj)
+      ));
+
+      this.setState({
+        shifts: getClockedTime,
+        toggle: getClockedTime[getLength].checkIn ? false : true
+      })
+    }
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -60,8 +74,8 @@ class TableExampleComplex extends Component {
 
   clockShift(e) {
     e.preventDefault();
-
     this.setState({toggle: !this.state.toggle})
+    timer = 0;
 
     let toggle = this.state.toggle ? 'I' : 'O';
     let restoredSession = JSON.parse(localStorage.getItem('session'));
@@ -90,6 +104,8 @@ class TableExampleComplex extends Component {
     // Start clock to disable button
     this.startTimer = setInterval(this.toggleButton, 1000);
 
+    localStorage.setItem('clockTime', JSON.stringify(data));
+    return;
     api.setClock(schedule)
       .then(function (response) {
 
@@ -104,16 +120,11 @@ class TableExampleComplex extends Component {
 
     timer += 1;
     this.setState({ completed: timer * 1.7});
-
+    console.log(timer);
     if (timer > 59) {
       this.setState({ disable: false});
       clearInterval(this.startTimer);
     }
-  }
-
-  componentWillUnmount() {
-
-    clearInterval(this.state.completed);
   }
 
   render() {

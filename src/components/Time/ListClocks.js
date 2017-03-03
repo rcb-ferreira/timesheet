@@ -12,7 +12,7 @@ const styles = {
   }
 };
 
-const winHeight = window.innerHeight - 225;
+const winHeight = (window.innerHeight - 225).toString() + 'px';
 
 const TableClock = ({
   timesheets

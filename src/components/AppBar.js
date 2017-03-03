@@ -31,15 +31,11 @@ const Logged = (props) => (
   >
 
     <MenuItem>
-      <Link to="/timesheet/day">Day</Link>
+      <Link to="/timesheet">Day</Link>
     </MenuItem>
 
     <MenuItem>
       <Link to="/timesheet/week">Week</Link>
-    </MenuItem>
-
-    <MenuItem>
-      <Link to="/timesheet">Total</Link>
     </MenuItem>
 
   </IconMenu>
@@ -85,7 +81,7 @@ class DrawerUndockedExample extends Component {
           />
           <Divider />
           <MenuItem onTouchTap={this.handleClose}>
-            <Link to="/timesheet/day">Timesheet</Link>
+            <Link to="/timesheet">Timesheet</Link>
           </MenuItem>
           <MenuItem onTouchTap={this.handleClose}>
             <Link to="/clock">Clock</Link>

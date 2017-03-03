@@ -1,7 +1,6 @@
 import Base from './components/Base';
 import Week from './components/Time/Week';
-import Total from './components/Time/Total';
-import TimePage from './containers/Time/TimePage';
+import ClockPage from './containers/Time/ClockPage';
 import TimesheetPage from './containers/Time/TimesheetPage';
 import NotFoundPage from './containers/Error/NotFoundPage';
 import LoginPage from './containers/Login/LoginPage';
@@ -17,7 +16,7 @@ const routes = {
       path: '/',
       getComponent: (location, callback) => {
         if (Auth.loggedIn()) {
-          callback(null, TimePage);
+          callback(null, ClockPage);
         } else {
           callback(null, LoginPage);
         }
@@ -29,7 +28,7 @@ const routes = {
       title: 'Clock Time',
       getComponent: (location, callback) => {
         if (Auth.loggedIn()) {
-          callback(null, TimePage);
+          callback(null, ClockPage);
         } else {
           callback(null, LoginPage);
         }
@@ -37,7 +36,7 @@ const routes = {
     },
 
     {
-      path: '/timesheet/day',
+      path: '/timesheet',
       component: TimesheetPage,
       title: 'Day View'
     },
@@ -46,12 +45,6 @@ const routes = {
       path: '/timesheet/week',
       component: Week,
       title: 'Week View'
-    },
-
-    {
-      path: '/timesheet',
-      component: Total,
-      title: 'Overview'
     },
 
     {

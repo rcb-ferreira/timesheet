@@ -23,9 +23,8 @@ const styles = {
   }
 };
 
-const data = [];
-
 let timer = 0;
+
 class TableExampleComplex extends Component {
   constructor(props) {
     super(props);
@@ -50,10 +49,6 @@ class TableExampleComplex extends Component {
 
     if (Array.isArray(getClockedTime)) {
       let getLength = getClockedTime.length - 1;
-      getClockedTime.map((obj) => (
-
-        data.push(obj)
-      ));
 
       this.setState({
         shifts: getClockedTime,
@@ -74,7 +69,12 @@ class TableExampleComplex extends Component {
 
   clockShift(e) {
     e.preventDefault();
-    this.setState({toggle: !this.state.toggle})
+
+    this.setState({
+      toggle: !this.state.toggle
+    })
+
+    // Reset timer
     timer = 0;
 
     let toggle = this.state.toggle ? 'I' : 'O';
@@ -94,18 +94,10 @@ class TableExampleComplex extends Component {
       checkIn: this.state.toggle
     };
 
-    data.push(schedule)
+    this.state.shifts.push(schedule);
 
-    this.setState({
-      shifts: data,
-      disable: true
-    });
+    localStorage.setItem('clockTime', JSON.stringify(this.state.shifts));
 
-    // Start clock to disable button
-    this.startTimer = setInterval(this.toggleButton, 1000);
-
-    localStorage.setItem('clockTime', JSON.stringify(data));
-    return;
     api.setClock(schedule)
       .then(function (response) {
 
@@ -120,7 +112,7 @@ class TableExampleComplex extends Component {
 
     timer += 1;
     this.setState({ completed: timer * 1.7});
-    console.log(timer);
+
     if (timer > 59) {
       this.setState({ disable: false});
       clearInterval(this.startTimer);

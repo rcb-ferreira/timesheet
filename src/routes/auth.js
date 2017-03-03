@@ -27,6 +27,7 @@ var auth = {
   },
 
   logout() {
+    localStorage.removeItem('clockTime')
     localStorage.removeItem('token')
     localStorage.removeItem('session')
     this.onChange(false)

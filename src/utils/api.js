@@ -68,13 +68,29 @@ let api = {
     return axios.request(options.url, options);
   },
 
-  getDay: function (date, token) {
+  getDay: function (empID, contractID, date, token) {
 
     let bearer = `Bearer ${token}`;
 
     let options = {
       baseURL: 'https://elmsinnstaff.adcorp.co.za/api/v1/',
-      url: `employees/300628/contractorders/16339/timesheets?date=${date}`,
+      url: `employees/${empID}/contractorders/${contractID}/timesheets?date=${date}`,
+      headers: {
+        'Authorization': bearer
+      },
+      method: 'GET'
+    };
+
+    return axios.request(options.url, options);
+  },
+
+  getContractorders: function (empID, token) {
+
+    let bearer = `Bearer ${token}`;
+
+    let options = {
+      baseURL: 'https://elmsinnstaff.adcorp.co.za/api/v1/',
+      url: `employees/${empID}/contractorders`,
       headers: {
         'Authorization': bearer
       },

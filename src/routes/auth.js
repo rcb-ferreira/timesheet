@@ -26,8 +26,29 @@ var auth = {
     return localStorage.getItem('token')
   },
 
+  getEmployeeID() {
+    let empID = JSON.parse(localStorage.getItem('session'));
+    return empID.employeeID;
+  },
+
+  getDefaultContractOrderID() {
+    let orders = JSON.parse(localStorage.getItem('contractorders'));
+
+    let contractOrderID = 0
+    orders.map(async row => {
+
+      if (row.DefaultContractOrderEmployee) {
+
+        contractOrderID = row.ContractOrderID;
+      }
+    });
+
+    return contractOrderID;
+  },
+
   logout() {
     localStorage.removeItem('clockTime')
+    localStorage.removeItem('contractorders')
     localStorage.removeItem('token')
     localStorage.removeItem('session')
     this.onChange(false)
@@ -58,6 +79,15 @@ function pretendRequest(email, pass, cb) {
           .then(function (response) {
 
             localStorage.setItem('session', JSON.stringify(response.data));
+
+            api.getContractorders(response.data.employeeID, token)
+              .then(res => {
+                console.log(res);
+                localStorage.setItem('contractorders', JSON.stringify(res.data.result));
+              })
+              .catch(error => {
+                console.log(error);
+              })
           })
           .catch(function (error) {
 

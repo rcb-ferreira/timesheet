@@ -77,7 +77,10 @@ export default class TableDay extends React.Component {
     let token = auth.getToken();
     this.setState({loading:true});
 
-    api.getDay(day, JSON.parse(token))
+    let empID = auth.getEmployeeID();
+    let contID = auth.getDefaultContractOrderID();
+
+    api.getDay(empID, contID, day, JSON.parse(token))
       .then(res => {
 
         const posts = res.data.result

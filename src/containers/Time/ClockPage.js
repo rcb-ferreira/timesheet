@@ -95,6 +95,10 @@ class TableExampleComplex extends Component {
     };
 
     this.state.shifts.push(schedule);
+    this.setState({ disable: true});
+
+    // Start clock to disable button
+    this.startTimer = setInterval(this.toggleButton, 1000);
 
     localStorage.setItem('clockTime', JSON.stringify(this.state.shifts));
 

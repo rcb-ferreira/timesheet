@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Tabs, Tab} from 'material-ui/Tabs';
+
 import SwipeableViews from 'react-swipeable-views';
 
 import TableDay from '../../components/Time/Day';
@@ -41,10 +42,10 @@ class TimesheetPage extends Component {
           <Tab label="Week" value={1} onClick={this.handleChangeTabs(1)}/>
         </Tabs>
         <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
-          <div style={styles.slide}>
+          <div style={Object.assign({}, styles.slide)}>
             <TableDay/>
           </div>
-          <div style={styles.slide}>
+          <div style={Object.assign({}, styles.slide)}>
             <TableWeek />
           </div>
         </SwipeableViews>

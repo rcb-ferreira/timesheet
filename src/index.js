@@ -4,8 +4,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // Theme
 import {lightBlue500, lightBlue600, grey400, grey900} from 'material-ui/styles/colors';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {getMuiTheme, MuiThemeProvider} from 'material-ui/styles/';
 
 // Routing
 import { hashHistory, Router } from 'react-router';

@@ -1,43 +1,49 @@
 import React, { Component } from 'react';
-import TableDay from '../../components/Time/Day';
-import TableWeek from '../../components/Time/Week';
-
 import {Tabs, Tab} from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 
-class TimesheetPage extends Component {
+import TableDay from '../../components/Time/Day';
+import TableWeek from '../../components/Time/Week';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      slideIndex: 0,
-    };
+const styles = {
+  slide: {
+    padding: 0
   }
+};
 
-  handleChange = (value) => {
+class DemoTabs extends Component {
+  state = {
+    index: 0,
+  };
+
+  handleChangeTabs = (value) => () => {
     this.setState({
-      slideIndex: value,
+      index: value,
+    });
+  };
+
+  handleChangeIndex = (index) => {
+    this.setState({
+      index,
     });
   };
 
   render() {
+    const {
+      index,
+    } = this.state;
+
     return (
       <div>
-        <Tabs
-          onChange={this.handleChange}
-          value={this.state.slideIndex}
-        >
-          <Tab label="Day" value={0} />
-          <Tab label="Week" value={1} />
+        <Tabs value={index}>
+          <Tab label="Day" value={0} onClick={this.handleChangeTabs(0)} />
+          <Tab label="Week" value={1} onClick={this.handleChangeTabs(1)} />
         </Tabs>
-        <SwipeableViews
-          index={this.state.slideIndex}
-          onChangeIndex={this.handleChange}
-        >
-          <div>
-            <TableDay />
+        <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
+          <div style={Object.assign({}, styles.slide)}>
+            <TableDay/>
           </div>
-          <div>
+          <div style={Object.assign({}, styles.slide)}>
             <TableWeek />
           </div>
         </SwipeableViews>
@@ -46,4 +52,4 @@ class TimesheetPage extends Component {
   }
 }
 
-export default TimesheetPage;
+export default DemoTabs;

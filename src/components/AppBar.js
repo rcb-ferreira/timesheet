@@ -5,9 +5,6 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 
-import IconMenu from 'material-ui/IconMenu';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-
 import Divider from 'material-ui/Divider';
 
 // Slide out nav
@@ -19,33 +16,6 @@ import Avatar from 'material-ui/Avatar';
 import ListItem from 'material-ui/List/ListItem';
 
 import Logo from '../assets/adcorpCircle.png';
-
-const Logged = (props) => (
-  <IconMenu
-    {...props}
-    iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{horizontal: 'right', vertical: 'top'}}
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-  >
-
-    <MenuItem>
-      <Link to="/timesheet">Day</Link>
-    </MenuItem>
-
-    <MenuItem>
-      <Link to="/timesheet/week">Week</Link>
-    </MenuItem>
-
-  </IconMenu>
-);
-
-const Nothing = (props) => (
-  <span>&nbsp;</span>
-);
-
-Logged.muiName = 'IconMenu';
 
 class DrawerUndockedExample extends Component {
 
@@ -65,8 +35,6 @@ class DrawerUndockedExample extends Component {
           title={this.props.title}
           iconElementLeft={<IconButton><NavigationMenu /></IconButton>}
           onLeftIconButtonTouchTap={this.handleToggle}
-
-          iconElementRight={ this.props.path.indexOf('/timesheet') ?  <Nothing /> : <Logged />}
         />
 
         <Drawer

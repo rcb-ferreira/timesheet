@@ -38,13 +38,7 @@ const routes = {
     {
       path: '/timesheet',
       component: TimesheetPage,
-      title: 'Day View'
-    },
-
-    {
-      path: '/timesheet/week',
-      component: Week,
-      title: 'Week View'
+      title: 'Timesheet'
     },
 
     {

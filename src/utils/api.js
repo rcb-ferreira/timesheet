@@ -68,13 +68,17 @@ let api = {
     return axios.request(options.url, options);
   },
 
-  getDay: function (empID, contractID, date, token) {
+  getDay: function (empID, contractID, date, token, range) {
 
+    if (range === undefined) {
+      range = 0;
+    }
+    
     let bearer = `Bearer ${token}`;
 
     let options = {
       baseURL: 'https://elmsinnstaff.adcorp.co.za/api/v1/',
-      url: `employees/${empID}/contractorders/${contractID}/timesheets?date=${date}`,
+      url: `employees/${empID}/contractorders/${contractID}/timesheets?date=${date}&range=${range}&limit=${range}`,
       headers: {
         'Authorization': bearer
       },

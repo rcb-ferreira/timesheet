@@ -34,7 +34,7 @@ export default class TableDay extends React.Component {
     maxDate.setHours(0, 0, 0, 0);
 
     this.state = {
-      posts: [],
+      tableData: [],
       maxDate: maxDate,
       fixedHeader: true,
       autoOk: true,
@@ -83,8 +83,8 @@ export default class TableDay extends React.Component {
     api.getDay(empID, contID, day, JSON.parse(token))
       .then(res => {
 
-        const posts = res.data.result
-        this.setState({ posts, loading: false });
+        const tableData = res.data.result
+        this.setState({ tableData, loading: false });
 
       })
       .catch(error => {
@@ -94,7 +94,7 @@ export default class TableDay extends React.Component {
   }
 
   render() {
-    const table = (<Table>
+    const tableHeader = (<Table>
       <TableHeader
         displaySelectAll={false}
         adjustForCheckbox={false}
@@ -124,8 +124,10 @@ export default class TableDay extends React.Component {
           </TableHeaderColumn>
         </TableRow>
       </TableHeader>
+    </Table>);
 
-      { this.state.posts.map((row, index) =>
+    const tableBody = (<Table>
+      { this.state.tableData.map((row, index) =>
         <TableBody
           key={index}
           displayRowCheckbox={false}
@@ -172,11 +174,16 @@ export default class TableDay extends React.Component {
     </Table>);
 
     return (
-      <Card className={ this.state.loading ? 'loader-wrapper' : ''} >
-        {
-          this.state.loading ?
-          <Loader /> : table
-        }
+      <Card>
+
+        {tableHeader}
+
+          <card className={ this.state.loading ? 'loader-wrapper' : ''}>
+          {
+            this.state.loading ?
+             <Loader /> : tableBody
+          }
+        </card>
       </Card>
     );
   }

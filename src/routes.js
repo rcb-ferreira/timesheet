@@ -1,5 +1,6 @@
 import Base from './components/Base';
-import Week from './components/Time/Week';
+
+// App pages
 import ClockPage from './containers/Time/ClockPage';
 import TimesheetPage from './containers/Time/TimesheetPage';
 import NotFoundPage from './containers/Error/NotFoundPage';

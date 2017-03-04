@@ -7,11 +7,12 @@ import TableWeek from '../../components/Time/Week';
 
 const styles = {
   slide: {
-    padding: 0
+    padding: 0,
+    minHeight: 300
   }
 };
 
-class DemoTabs extends Component {
+class TimesheetPage extends Component {
   state = {
     index: 0,
   };
@@ -36,14 +37,14 @@ class DemoTabs extends Component {
     return (
       <div>
         <Tabs value={index}>
-          <Tab label="Day" value={0} onClick={this.handleChangeTabs(0)} />
-          <Tab label="Week" value={1} onClick={this.handleChangeTabs(1)} />
+          <Tab label="Day" value={0} onClick={this.handleChangeTabs(0)}/>
+          <Tab label="Week" value={1} onClick={this.handleChangeTabs(1)}/>
         </Tabs>
         <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
-          <div style={Object.assign({}, styles.slide)}>
+          <div style={styles.slide}>
             <TableDay/>
           </div>
-          <div style={Object.assign({}, styles.slide)}>
+          <div style={styles.slide}>
             <TableWeek />
           </div>
         </SwipeableViews>
@@ -52,4 +53,4 @@ class DemoTabs extends Component {
   }
 }
 
-export default DemoTabs;
+export default TimesheetPage;

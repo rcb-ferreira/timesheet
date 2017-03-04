@@ -13,6 +13,7 @@ import routes from './routes.js';
 
 // Cutom styles
 import './styles/index.css';
+import './styles/login.css';
 import './styles/timesheet.css';
 
 // remove tap delay, essential for MaterialUI to work properly

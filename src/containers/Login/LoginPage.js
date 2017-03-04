@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../../styles/login.css'
 
 import LoginForm from '../../components/LoginForm';
 import auth from '../../routes/auth';

@@ -10,6 +10,12 @@ const styles = {
   slide: {
     padding: 0,
     minHeight: 300
+  },
+  tabs: {
+    opacity: '0.8'
+  },
+  tab: {
+    color: '#212121'
   }
 };
 
@@ -37,9 +43,9 @@ class TimesheetPage extends Component {
 
     return (
       <div>
-        <Tabs value={index}>
-          <Tab label="Day" value={0} onClick={this.handleChangeTabs(0)}/>
-          <Tab label="Week" value={1} onClick={this.handleChangeTabs(1)}/>
+        <Tabs value={index} style={Object.assign({}, styles.tabs)}>
+          <Tab label="Day" value={0} onClick={this.handleChangeTabs(0)} style={Object.assign({}, styles.tab)}/>
+          <Tab label="Week" value={1} onClick={this.handleChangeTabs(1)} style={Object.assign({}, styles.tab)}/>
         </Tabs>
         <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
           <div style={Object.assign({}, styles.slide)}>

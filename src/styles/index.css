@@ -66,6 +66,9 @@ a:hover {
   color: green;
 }
 
+html {
+    -webkit-text-size-adjust: none
+}
 
 /* ----------------- */
 /* RESPONSIVE DESIGN */

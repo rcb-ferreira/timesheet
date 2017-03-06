@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["index.html","ea448afac6be0afed41ab99783365dad"],["static/css/main.bcbfcafe.css","5302b94951d33e723d362512dd8d2a59"],["static/js/main.51aed6d3.js","068906c6038d985e27ff79fe90b630cd"],["static/media/adcorpLogo.e55d3b72.jpg","e55d3b726cb283f14cbeb444dbb2fa55"]];
+var precacheConfig = [["favicons/manifest.json","c8888e02a11e4dab5768381df2b7c399"],["index.html","ea448afac6be0afed41ab99783365dad"],["static/css/main.bcbfcafe.css","5302b94951d33e723d362512dd8d2a59"],["static/js/main.51aed6d3.js","068906c6038d985e27ff79fe90b630cd"],["static/media/adcorpLogo.e55d3b72.jpg","e55d3b726cb283f14cbeb444dbb2fa55"]];
 var cacheName = 'sw-precache-v3-sw-precache-' + (self.registration ? self.registration.scope : '');
 
 

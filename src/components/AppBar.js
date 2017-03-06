@@ -17,6 +17,12 @@ import ListItem from 'material-ui/List/ListItem';
 
 import Logo from '../assets/adcorpCircle.png';
 
+const styles = {
+  lists: {
+    color: '#03a9f4'
+  }
+};
+
 class DrawerUndockedExample extends Component {
 
   constructor(props) {
@@ -49,14 +55,20 @@ class DrawerUndockedExample extends Component {
           />
           <Divider />
           <MenuItem onTouchTap={this.handleClose}>
-            <Link to="/timesheet">Timesheet</Link>
+            <Link
+            style={Object.assign({}, styles.lists)}
+            to="/timesheet">Timesheet</Link>
           </MenuItem>
           <MenuItem onTouchTap={this.handleClose}>
-            <Link to="/clock">Clock</Link>
+            <Link
+            style={Object.assign({}, styles.lists)}
+            to="/clock">Clock</Link>
           </MenuItem>
           <Divider />
           <MenuItem onTouchTap={this.handleClose}>
-            <Link to="/logout">Logout</Link>
+            <Link
+            style={Object.assign({}, styles.lists)} 
+            to="/logout">Logout</Link>
           </MenuItem>
         </Drawer>
       </div>

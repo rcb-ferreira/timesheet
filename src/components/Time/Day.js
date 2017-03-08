@@ -21,8 +21,12 @@ import Loader from '../Loader';
 const styles = {
   iconStyle: {
     float: 'right'
+  },
+  row: {
+    height: '200px',
+    textAlign: 'center'
   }
-}
+};
 
 export default class TableDay extends React.Component {
 
@@ -94,7 +98,7 @@ export default class TableDay extends React.Component {
   }
 
   render() {
-    const tableHeader = (<Table>
+    const tableDate = (<Table>
       <TableHeader
         displaySelectAll={false}
         adjustForCheckbox={false}
@@ -124,10 +128,7 @@ export default class TableDay extends React.Component {
           </TableHeaderColumn>
         </TableRow>
       </TableHeader>
-    </Table>);
-
-    const tableBody = (<Table>
-      { this.state.tableData.map((row, index) =>
+      { !this.state.loading ? this.state.tableData.map((row, index) =>
         <TableBody
           key={index}
           displayRowCheckbox={false}
@@ -162,28 +163,33 @@ export default class TableDay extends React.Component {
 
           <TableRow >
             <TableRowColumn>
-              <h3>Total</h3>
+              <h3>Overtime</h3>
             </TableRowColumn>
             <TableRowColumn>
-              <p>{row.total}</p>
+              <p>N/A</p>
+            </TableRowColumn>
+          </TableRow>
+
+          <TableRow >
+            <TableRowColumn>
+              <h3>Location</h3>
+            </TableRowColumn>
+            <TableRowColumn>
+              <p>N/A</p>
             </TableRowColumn>
           </TableRow>
 
         </TableBody>
-      )}
+      ) : <TableRow>
+        <TableRowColumn style={styles.row} colSpan="3">
+          <Loader />
+        </TableRowColumn>
+      </TableRow>}
     </Table>);
 
     return (
       <Card>
-
-        {tableHeader}
-
-          <card className={ this.state.loading ? 'loader-wrapper' : ''}>
-          {
-            this.state.loading ?
-             <Loader /> : tableBody
-          }
-        </card>
+        {tableDate}
       </Card>
     );
   }

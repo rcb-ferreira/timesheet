@@ -14,6 +14,13 @@ import auth from '../../routes/auth';
 
 import Loader from '../Loader';
 
+const styles = {
+  row: {
+    height: '200px',
+    textAlign: 'center'
+  }
+};
+
 export default class TableDay extends React.Component {
 
   constructor(props) {
@@ -26,7 +33,6 @@ export default class TableDay extends React.Component {
       maxDate: maxDate,
       loading: false,
       fixedHeader: true,
-      fixedFooter: true,
       stripedRows: true,
       value: 1
     };
@@ -75,7 +81,6 @@ export default class TableDay extends React.Component {
   render() {
     const tableHeader = (<Table
         fixedHeader={this.state.fixedHeader}
-        fixedFooter={this.state.fixedFooter}
       >
         <TableHeader
           displaySelectAll={false}
@@ -102,7 +107,6 @@ export default class TableDay extends React.Component {
 
     const tableBody = (<Table
         fixedHeader={this.state.fixedHeader}
-        fixedFooter={this.state.fixedFooter}
       >
         <TableHeader
           displaySelectAll={false}
@@ -115,9 +119,9 @@ export default class TableDay extends React.Component {
         </TableHeader>
         <TableBody
           displayRowCheckbox={false}
-          stripedRows={true}
+          stripedRows={!this.state.loading}
         >
-          {this.state.tableData.map((row, index) =>
+          {!this.state.loading ? this.state.tableData.map((row, index) =>
             <TableRow key={index}>
                 <TableRowColumn>
                 {moment(row.date).format('ll')}
@@ -126,22 +130,19 @@ export default class TableDay extends React.Component {
                 {row.total}
                 </TableRowColumn>
             </TableRow>
-          )}
+          ) : <TableRow>
+            <TableRowColumn style={styles.row} colSpan="3">
+              <Loader />
+            </TableRowColumn>
+          </TableRow>}
         </TableBody>
       </Table>);
 
     return (
 
       <Card>
-
         {tableHeader}
-
-          <card className={ this.state.loading ? 'loader-wrapper' : ''}>
-          {
-            this.state.loading ?
-             <Loader /> : tableBody
-          }
-        </card>
+        {tableBody}
       </Card>
     );
   }

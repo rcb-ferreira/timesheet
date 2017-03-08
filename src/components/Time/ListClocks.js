@@ -5,14 +5,20 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 // 3rd party lib
 import moment from 'moment';
 
+import Loader from '../Loader';
+
+const winHeight = (window.innerHeight - 225).toString() + 'px';
+
 const styles = {
   header: {
     fontSize: 16,
     color: '#333'
+  },
+  row: {
+    height: winHeight,
+    textAlign: 'center'
   }
 };
-
-const winHeight = (window.innerHeight - 225).toString() + 'px';
 
 const TableClock = ({
   timesheets
@@ -34,14 +40,18 @@ const TableClock = ({
       </TableHeader>
       <TableBody
         displayRowCheckbox={false}
-        stripedRows={true}
+        stripedRows={timesheets.length}
       >
-        {timesheets.map( (row, index) => (
+        {timesheets.length ? timesheets.map( (row, index) => (
           <TableRow key={index}>
             <TableRowColumn><h3>{row.ClockType}</h3></TableRowColumn>
             <TableRowColumn>{moment(row.CheckStartDateTime).format('H:mm')}</TableRowColumn>
           </TableRow>
-          ))}
+        )) : <TableRow>
+          <TableRowColumn style={styles.row} colSpan="3">
+            <Loader />
+          </TableRowColumn>
+        </TableRow>}
       </TableBody>
     </Table>
 );

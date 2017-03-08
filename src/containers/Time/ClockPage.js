@@ -43,7 +43,7 @@ class TableExampleComplex extends Component {
 
     this.clockShift = this.clockShift.bind(this);
     this.toggleButton = this.toggleButton.bind(this);
-    this.getClocks = this.getClocks.bind(this);
+    this.loadClocks = this.loadClocks.bind(this);
   }
 
   componentDidMount() {
@@ -58,13 +58,15 @@ class TableExampleComplex extends Component {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
 
-    this.getClocks();
+    setTimeout(function(){
+      this.loadClocks()
+    }.bind(this), 1000)
   }
 
-  getClocks() {
+  loadClocks() {
 
     let token = auth.getToken();
-    this.setState({loading:true});
+
     let day = moment().format("YYYY-MM-DD")
 
     let empID = auth.getEmployeeID();

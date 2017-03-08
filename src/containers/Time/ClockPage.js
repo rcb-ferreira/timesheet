@@ -11,8 +11,6 @@ import moment from 'moment';
 import api from '../../utils/api';
 import auth from '../../routes/auth';
 
-// import Loader from '../Loader';
-
 // Custom button styles
 const styles = {
   btnClock: {
@@ -45,6 +43,7 @@ class TableExampleComplex extends Component {
 
     this.clockShift = this.clockShift.bind(this);
     this.toggleButton = this.toggleButton.bind(this);
+    this.getClocks = this.getClocks.bind(this);
   }
 
   componentDidMount() {
@@ -57,9 +56,9 @@ class TableExampleComplex extends Component {
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    )
+    );
 
-    this.getClocks()
+    this.getClocks();
   }
 
   getClocks() {
@@ -92,7 +91,7 @@ class TableExampleComplex extends Component {
 
     this.setState({
       toggle: !this.state.toggle
-    });
+    })
 
     // Reset timer
     timer = 0;
@@ -110,22 +109,16 @@ class TableExampleComplex extends Component {
       latitude: this.state.lat,
       longitude: this.state.long,
       accId: restoredSession.employeeCode,
-      guid: '00000000-0000-0000-0000-000000000000',
+      guid: '570eaa48-19fb-4862-b0af-1be3344e7549',
       CheckStartDateTime: moment().format(),
       ClockType: this.state.toggle ? 'In' : 'Out'
     };
 
     this.state.shifts.push(schedule);
-
-    this.setState({ disable: true });
+    this.setState({ disable: true});
 
     // Start clock to disable button
     this.startTimer = setInterval(this.toggleButton, 1000);
-
-    console.log(this.state.toggle);
-    return;
-
-    localStorage.setItem('clockTime', JSON.stringify(this.state.shifts));
 
     api.setClock(schedule)
       .then(function (response) {

@@ -73,12 +73,27 @@ let api = {
     if (range === undefined) {
       range = 0;
     }
-    
+
     let bearer = `Bearer ${token}`;
 
     let options = {
       baseURL: 'https://elmsinnstaff.adcorp.co.za/api/v1/',
       url: `employees/${empID}/contractorders/${contractID}/timesheets?date=${date}&range=${range}&limit=${range}`,
+      headers: {
+        'Authorization': bearer
+      },
+      method: 'GET'
+    };
+
+    return axios.request(options.url, options);
+  },
+
+  getClocks: function (empID, contractID, date, token) {
+    let bearer = `Bearer ${token}`;
+
+    let options = {
+      baseURL: 'https://elmsinnstaff.adcorp.co.za/api/v1/',
+      url: `employees/${empID}/contractorders/${contractID}/clocks?date=${date}`,
       headers: {
         'Authorization': bearer
       },

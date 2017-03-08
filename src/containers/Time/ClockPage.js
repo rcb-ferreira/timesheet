@@ -9,6 +9,9 @@ import moment from 'moment';
 
 // utils
 import api from '../../utils/api';
+import auth from '../../routes/auth';
+
+// import Loader from '../Loader';
 
 // Custom button styles
 const styles = {
@@ -45,16 +48,6 @@ class TableExampleComplex extends Component {
   }
 
   componentDidMount() {
-    let getClockedTime = JSON.parse(localStorage.getItem('clockTime'));
-
-    if (Array.isArray(getClockedTime)) {
-      let getLength = getClockedTime.length - 1;
-
-      this.setState({
-        shifts: getClockedTime,
-        toggle: getClockedTime[getLength].checkIn ? false : true
-      })
-    }
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -64,7 +57,34 @@ class TableExampleComplex extends Component {
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
+    )
+
+    this.getClocks()
+  }
+
+  getClocks() {
+
+    let token = auth.getToken();
+    this.setState({loading:true});
+    let day = moment().format("YYYY-MM-DD")
+
+    let empID = auth.getEmployeeID();
+    let contID = auth.getDefaultContractOrderID();
+
+    api.getClocks(empID, contID, day, JSON.parse(token))
+      .then(res => {
+
+        const clocks = res.data.result
+        let clockLength = clocks.length
+
+        this.setState({
+          shifts: clocks,
+          toggle: clocks[clockLength - 1].ClockType === 'In' ? false : true
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   clockShift(e) {
@@ -72,7 +92,7 @@ class TableExampleComplex extends Component {
 
     this.setState({
       toggle: !this.state.toggle
-    })
+    });
 
     // Reset timer
     timer = 0;
@@ -90,15 +110,20 @@ class TableExampleComplex extends Component {
       latitude: this.state.lat,
       longitude: this.state.long,
       accId: restoredSession.employeeCode,
-      guid: '570eaa48-19fb-4862-b0af-1be3344e7549',
-      checkIn: this.state.toggle
+      guid: '00000000-0000-0000-0000-000000000000',
+      CheckStartDateTime: moment().format(),
+      ClockType: this.state.toggle ? 'In' : 'Out'
     };
 
     this.state.shifts.push(schedule);
-    this.setState({ disable: true});
+
+    this.setState({ disable: true });
 
     // Start clock to disable button
     this.startTimer = setInterval(this.toggleButton, 1000);
+
+    console.log(this.state.toggle);
+    return;
 
     localStorage.setItem('clockTime', JSON.stringify(this.state.shifts));
 

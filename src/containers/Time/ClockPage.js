@@ -108,8 +108,8 @@ class TableExampleComplex extends Component {
       eventDate: moment().format(),
       direction: toggle,
       deviceSN: 'MOBILEAPP',
-      latitude: this.state.lat,
-      longitude: this.state.long,
+      Latitude: this.state.lat,
+      Longitude: this.state.long,
       accId: restoredSession.employeeCode,
       guid: '570eaa48-19fb-4862-b0af-1be3344e7549',
       CheckStartDateTime: moment().format(),
@@ -119,6 +119,7 @@ class TableExampleComplex extends Component {
     this.state.shifts.push(schedule);
     this.setState({ disable: true});
 
+    return;
     // Start clock to disable button
     this.startTimer = setInterval(this.toggleButton, 1000);
 

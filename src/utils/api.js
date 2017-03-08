@@ -48,8 +48,8 @@ let api = {
           <Direction>${data.direction}</Direction>
           <DeviceSN>${data.deviceSN}</DeviceSN>
           <Acc_id>${data.accId}</Acc_id>
-          <Latitude>${data.latitude}</Latitude>
-          <Longitude>${data.longitude}</Longitude>
+          <Latitude>${data.Latitude}</Latitude>
+          <Longitude>${data.Longitude}</Longitude>
           <GUID>${data.guid}</GUID>
         </setERSClocks>
       </soap:Body>

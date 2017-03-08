@@ -2,6 +2,8 @@ import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
 
+import Place from 'material-ui/svg-icons/maps/place';
+
 // 3rd party lib
 import moment from 'moment';
 
@@ -40,12 +42,14 @@ const TableClock = ({
       </TableHeader>
       <TableBody
         displayRowCheckbox={false}
-        stripedRows={timesheets.length}
+        stripedRows={timesheets.length > 0 ? true : false}
       >
         {timesheets.length ? timesheets.map( (row, index) => (
           <TableRow key={index}>
             <TableRowColumn><h3>{row.ClockType}</h3></TableRowColumn>
             <TableRowColumn>{moment(row.CheckStartDateTime).format('H:mm')}</TableRowColumn>
+
+            <TableRowColumn><a href={'https://maps.google.com/maps?q='+ row.Latitude +','+ row.Longitude} target="_blank"><Place /></a></TableRowColumn>
           </TableRow>
         )) : <TableRow>
           <TableRowColumn style={styles.row} colSpan="3">

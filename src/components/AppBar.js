@@ -28,6 +28,10 @@ class DrawerUndockedExample extends Component {
   constructor(props) {
     super(props);
     this.state = {open: false};
+
+    let restoredSession = JSON.parse(localStorage.getItem('session'));
+
+    this.employeeName = restoredSession.firstname + ' ' + restoredSession.surname;
   }
 
   handleToggle = () => this.setState({open: !this.state.open});
@@ -52,22 +56,23 @@ class DrawerUndockedExample extends Component {
           <ListItem
             primaryText="Adcorp"
             leftAvatar={<Avatar src={Logo} />}
+            secondaryText={this.employeeName}
           />
           <Divider />
           <MenuItem onTouchTap={this.handleClose}>
             <Link
             style={Object.assign({}, styles.lists)}
-            to="/timesheet">Timesheet</Link>
+            to="/clock">Clock</Link>
           </MenuItem>
           <MenuItem onTouchTap={this.handleClose}>
             <Link
             style={Object.assign({}, styles.lists)}
-            to="/clock">Clock</Link>
+            to="/timesheet">Timesheet</Link>
           </MenuItem>
           <Divider />
           <MenuItem onTouchTap={this.handleClose}>
             <Link
-            style={Object.assign({}, styles.lists)} 
+            style={Object.assign({}, styles.lists)}
             to="/logout">Logout</Link>
           </MenuItem>
         </Drawer>

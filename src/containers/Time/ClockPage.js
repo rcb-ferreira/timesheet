@@ -85,9 +85,9 @@ class TableExampleComplex extends Component {
           disable: false
         })
 
-        if (res.total > 0) {
+        if (res.data.total > 0) {
           this.setState({
-            toggle: clocks[clockLength - 1].ClockType === 'In' ? false : true
+            toggle: clocks[res.data.total - 1].ClockType === 'In' ? false : true
           })
         }
 

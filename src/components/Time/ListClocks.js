@@ -23,6 +23,7 @@ const styles = {
 };
 
 const TableClock = ({
+  loading,
   timesheets
 }) => (
     <Table
@@ -44,7 +45,7 @@ const TableClock = ({
         displayRowCheckbox={false}
         stripedRows={timesheets.length > 0 ? true : false}
       >
-        {timesheets.length ? timesheets.map( (row, index) => (
+        {!loading ? timesheets.map( (row, index) => (
           <TableRow key={index}>
             <TableRowColumn><h3>{row.ClockType}</h3></TableRowColumn>
             <TableRowColumn>{moment(row.CheckStartDateTime).format('H:mm')}</TableRowColumn>
@@ -61,6 +62,7 @@ const TableClock = ({
 );
 
 TableClock.propTypes = {
+  loading: React.PropTypes.bool,
   timesheets: React.PropTypes.array
 };
 

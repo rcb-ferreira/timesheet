@@ -33,7 +33,8 @@ class TableExampleComplex extends Component {
     this.state = {
       completed: 0,
       toggle: true,
-      disable: false,
+      loading: true,
+      disable: true,
       lat: '',
       long: '',
       error: '',
@@ -80,11 +81,23 @@ class TableExampleComplex extends Component {
 
         this.setState({
           shifts: clocks,
-          toggle: clocks[clockLength - 1].ClockType === 'In' ? false : true
+          loading: false,
+          disable: false
         })
+
+        if (res.total > 0) {
+          this.setState({
+            toggle: clocks[clockLength - 1].ClockType === 'In' ? false : true
+          })
+        }
+
       })
       .catch(error => {
         console.log(error)
+        this.setState({
+          loading: false,
+          disable: false
+        })
       });
   }
 
@@ -119,7 +132,6 @@ class TableExampleComplex extends Component {
     this.state.shifts.push(schedule);
     this.setState({ disable: true});
 
-    return;
     // Start clock to disable button
     this.startTimer = setInterval(this.toggleButton, 1000);
 
@@ -147,7 +159,7 @@ class TableExampleComplex extends Component {
   render() {
     return (
       <Card>
-        <TableClock timesheets={this.state.shifts} />
+        <TableClock timesheets={this.state.shifts} loading={this.state.loading}/>
 
         <RaisedButton style={styles.btnClock} type="submit" fullWidth={true} onClick={this.clockShift} disabled={this.state.disable} primary>
 

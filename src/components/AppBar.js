@@ -31,7 +31,9 @@ class DrawerUndockedExample extends Component {
 
     let restoredSession = JSON.parse(localStorage.getItem('session'));
 
-    this.employeeName = restoredSession.firstname + ' ' + restoredSession.surname;
+    if (restoredSession) {
+      this.employeeName = restoredSession.firstname + ' ' + restoredSession.surname;
+    }
   }
 
   handleToggle = () => this.setState({open: !this.state.open});

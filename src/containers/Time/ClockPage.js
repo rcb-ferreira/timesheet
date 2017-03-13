@@ -77,7 +77,6 @@ class TableExampleComplex extends Component {
       .then(res => {
 
         const clocks = res.data.result
-        let clockLength = clocks.length
 
         this.setState({
           shifts: clocks,

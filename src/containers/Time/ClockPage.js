@@ -11,6 +11,9 @@ import moment from 'moment';
 import api from '../../utils/api';
 import auth from '../../routes/auth';
 
+// components
+import Alert from '../../components/Alert';
+
 // Custom button styles
 const styles = {
   btnClock: {
@@ -24,13 +27,12 @@ const styles = {
   }
 };
 
-let timer = 0;
-
 class TableExampleComplex extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      duration: 3000,
       completed: 0,
       toggle: true,
       loading: true,
@@ -39,12 +41,17 @@ class TableExampleComplex extends Component {
       long: '',
       error: '',
       success: '',
-      shifts: []
+      shifts: [],
+      message: 'Event 1 added to your calendar',
+      open: false,
     }
 
     this.clockShift = this.clockShift.bind(this);
     this.toggleButton = this.toggleButton.bind(this);
     this.loadClocks = this.loadClocks.bind(this);
+
+    this.timer = undefined;
+    this.handleAlert = this.handleAlert.bind(this);
   }
 
   componentDidMount() {
@@ -67,11 +74,39 @@ class TableExampleComplex extends Component {
   loadClocks() {
 
     let token = auth.getToken();
-
     let day = moment().format("YYYY-MM-DD")
-
     let empID = auth.getEmployeeID();
     let contID = auth.getDefaultContractOrderID();
+
+    if (token === null) {
+      this.setState({
+        message: 'No token detected, only authorized user are allowed.',
+        open: true,
+        duration: 0
+      })
+
+      return
+    }
+
+    if (empID === null) {
+      this.setState({
+        message: 'No Employee ID detected, please logout and login again.',
+        open: true,
+        duration: 0
+      })
+
+      return
+    }
+
+    if (contID === null) {
+      this.setState({
+        message: 'No contract order ID detected, please logout and login again.',
+        open: true,
+        duration: 0
+      })
+
+      return
+    }
 
     api.getClocks(empID, contID, day, JSON.parse(token))
       .then(res => {
@@ -92,10 +127,13 @@ class TableExampleComplex extends Component {
 
       })
       .catch(error => {
-        console.log(error)
+
         this.setState({
           loading: false,
-          disable: false
+          disable: false,
+          message: 'Unknown error detected please try again later.',
+          open: true,
+          duration: 0
         })
       });
   }
@@ -108,7 +146,7 @@ class TableExampleComplex extends Component {
     })
 
     // Reset timer
-    timer = 0;
+    this.timer = 0;
 
     let toggle = this.state.toggle ? 'I' : 'O';
     let restoredSession = JSON.parse(localStorage.getItem('session'));
@@ -129,30 +167,48 @@ class TableExampleComplex extends Component {
     };
 
     this.state.shifts.push(schedule);
-    this.setState({ disable: true});
+
+    this.setState({ disable: true });
 
     // Start clock to disable button
     this.startTimer = setInterval(this.toggleButton, 1000);
 
     api.setClock(schedule)
-      .then(function (response) {
+      .then(res => {
 
-        this.setState({ success: 'Successfully sync to server' })
+        this.setState({
+          message: 'Successfully captured clock',
+          open: true
+        })
       })
-      .catch(function (error) {
+      .catch(error => {
 
+        this.setState({
+          disable: false,
+          message: error,
+          open: true
+        })
       });
+
   }
 
   toggleButton() {
 
-    timer += 1;
-    this.setState({ completed: timer * 1.7});
+    // Completeness = timer * (100 / time)
+    this.timer += 1;
+    this.setState({
+      completed: this.timer * 0.3,
+      open: false
+    });
 
-    if (timer > 59) {
+    if (this.timer > 299) {
       this.setState({ disable: false});
       clearInterval(this.startTimer);
     }
+  }
+
+  handleAlert(event) {
+    this.setState({ open: false});
   }
 
   render() {
@@ -168,6 +224,7 @@ class TableExampleComplex extends Component {
 
         </RaisedButton>
 
+        <Alert message={this.state.message} action={'Close'} open={this.state.open} duration={this.state.duration} onActionTouchTap={this.handleAlert}/>
       </Card>
     );
   }

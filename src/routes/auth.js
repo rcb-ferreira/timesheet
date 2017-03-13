@@ -28,7 +28,12 @@ var auth = {
 
   getEmployeeID() {
     let empID = JSON.parse(localStorage.getItem('session'));
-    return empID.employeeID;
+
+    if (empID && empID.employeeID) {
+      return empID.employeeID;
+    }
+
+    return null;
   },
 
   getDefaultContractOrderID() {
@@ -43,7 +48,11 @@ var auth = {
       }
     });
 
-    return contractOrderID;
+    if (contractOrderID > 0) {
+      return contractOrderID;
+    }
+
+    return null;
   },
 
   logout() {

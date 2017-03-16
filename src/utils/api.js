@@ -77,7 +77,7 @@ let api = {
     let bearer = `Bearer ${token}`;
 
     let options = {
-      baseURL: 'https://elmsinnstaff.adcorp.co.za/api/v1/',
+      baseURL: 'https://elmsinnstaff.adcorp.co.za/api/v2/',
       url: `employees/${empID}/contractorders/${contractID}/timesheets?date=${date}&range=${range}&limit=${range}`,
       headers: {
         'Authorization': bearer

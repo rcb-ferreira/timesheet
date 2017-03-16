@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
 
 import SelectField from 'material-ui/SelectField';
@@ -11,7 +11,6 @@ import moment from 'moment';
 // icon
 import RaisedButton from 'material-ui/RaisedButton';
 
-import NavRight from 'material-ui/svg-icons/navigation/chevron-right';
 import NavLeft from 'material-ui/svg-icons/navigation/chevron-left';
 
 import SwipeableViews from 'react-swipeable-views';
@@ -21,6 +20,7 @@ import api from '../../utils/api';
 import auth from '../../routes/auth';
 
 import Day from './Day'
+import Other from './ListOther'
 
 const styles = {
   dropdown: {
@@ -31,10 +31,15 @@ const styles = {
     minHeight: 300
   },
   button: {
-    margin: 20,
+    zIndex: '1',
+    margin: 20
   },
-  arrow: {
-    float: 'right'
+  arrowLeft: {
+    margin: '-2px -4px 0px 2px',
+  },
+  otherLIst: {
+    position: 'absolute',
+    margin: '-16px 0px 0px -10px'
   }
 };
 
@@ -69,10 +74,10 @@ export default class TableExampleComplex extends React.Component {
 
     this.onRowSelection = this.onRowSelection.bind(this);
     this.breakdown = [];
+    this.date = moment().format();
   }
 
   componentDidMount = () => {
-    console.log('test');
     this.handleChange('', 0, 1);
   }
 
@@ -89,10 +94,31 @@ export default class TableExampleComplex extends React.Component {
     let empID = auth.getEmployeeID();
     let contID = auth.getDefaultContractOrderID();
 
+    this.totalNormalTime = 0;
     api.getDay(empID, contID, day, JSON.parse(token), range)
       .then(res => {
-        console.log(res);
+
         const tableData = res.data.result
+
+        if (tableData.length) {
+          tableData.map(async (row, index) => {
+
+            if (row.totals.length) {
+              this.otherTime = 0;
+              row.totals.map(async row => {
+
+                if (row.name === 'Normal Time') {
+                  tableData[index].normalTime = row.value
+                  this.totalNormalTime += row.value
+                } else if (row.name !== 'Normal Time') {
+                  this.otherTime += row.value
+                }
+              });
+              tableData[index].otherTime = this.otherTime
+            }
+          });
+        }
+
         this.setState({ tableData, loading: false });
       })
       .catch(error => {
@@ -101,13 +127,11 @@ export default class TableExampleComplex extends React.Component {
       });
   }
 
-
   // To select other times
   handleSelect = (event, index, value) => this.setState({value});
 
-
   handleChangeTabs = (value) => () => {
-    console.log(value);
+
     this.setState({
       index: value,
     });
@@ -119,11 +143,32 @@ export default class TableExampleComplex extends React.Component {
     });
   };
 
-  onRowSelection = (rows) => {
+  onRowSelection = (index) => {
 
     this.breakdown = [];
-    this.breakdown.push(this.state.tableData[rows]);
-    console.log(this.breakdown);
+
+    if (this.state.tableData[index] && this.state.tableData[index].breakdown) {
+
+      this.date = this.state.tableData[index].date;
+      this.breakdown = [
+        {
+          name: 'Start',
+          value: moment(this.state.tableData[index].breakdown.start).format('HH:mm A')
+        },
+        {
+          name: 'Finish',
+          value: moment(this.state.tableData[index].breakdown.finish).format('HH:mm A')
+        },
+        {
+          name: 'Break',
+          value: this.state.tableData[index].breakdown.break || 0
+        }
+      ];
+    }
+  }
+
+  testBtn = (event) => {
+    console.log(event);
   }
 
   render() {
@@ -146,7 +191,7 @@ export default class TableExampleComplex extends React.Component {
         enableSelectAll={this.state.enableSelectAll}
       >
         <TableRow>
-          <TableHeaderColumn colSpan="2">
+          <TableHeaderColumn colSpan="4">
             <SelectField
                 floatingLabelText="Range"
                 value={this.state.value}
@@ -161,8 +206,9 @@ export default class TableExampleComplex extends React.Component {
           </TableHeaderColumn>
         </TableRow>
         <TableRow>
-          <TableHeaderColumn>Date</TableHeaderColumn>
+          <TableHeaderColumn colSpan="2">Date</TableHeaderColumn>
           <TableHeaderColumn>Normal Time</TableHeaderColumn>
+          <TableHeaderColumn>Other</TableHeaderColumn>
         </TableRow>
       </TableHeader>
       <TableBody
@@ -173,22 +219,23 @@ export default class TableExampleComplex extends React.Component {
       >
         {this.state.tableData.map( (row, index) => (
           <TableRow key={index} value={index}>
-            <TableRowColumn>{moment(row.date).format('ddd, ll')}</TableRowColumn>
+            <TableRowColumn colSpan="2">{moment(row.date).format('ddd, ll')}</TableRowColumn>
             <TableRowColumn>
-              <NavRight style={styles.arrow}/>
-              {row.total ? row.total : 0}
+              {row.normalTime}
+            </TableRowColumn>
+            <TableRowColumn>
+              {row.otherTime > 0 ? <span>{row.otherTime} <span style={styles.otherLIst}><Other totals={row.totals}/></span> </span> : 0}
             </TableRowColumn>
           </TableRow>
-          ))}
-      </TableBody>
-      <TableFooter
-        adjustForCheckbox={this.state.showCheckboxes}
-      >
-        <TableRow>
-          <TableRowColumn>Overal</TableRowColumn>
-          <TableRowColumn>40 h</TableRowColumn>
+        ))}
+
+        <TableRow >
+          <TableRowColumn colSpan="2">Total</TableRowColumn>
+          <TableRowColumn>{this.totalNormalTime}</TableRowColumn>
+          <TableRowColumn>&nbsp;</TableRowColumn>
         </TableRow>
-      </TableFooter>
+
+      </TableBody>
     </Table>)
 
     return (
@@ -198,12 +245,12 @@ export default class TableExampleComplex extends React.Component {
             {tableWeek}
           </div>
           <div style={Object.assign({}, styles.slide)}>
-          <Day breakdown={this.breakdown}/>
+
+          <Day breakdown={this.breakdown} date={moment(this.date).format('ddd, ll')}/>
           <RaisedButton
-            default={true}
             label="Back"
             primary={true}
-            icon={<NavLeft />}
+            icon={<NavLeft style={Object.assign({}, styles.arrowLeft)}/>}
             style={styles.button}
             value={0}
             onClick={this.handleChangeTabs(0)}/>

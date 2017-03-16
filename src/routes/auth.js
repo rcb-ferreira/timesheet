@@ -44,7 +44,7 @@ var auth = {
 
       if (row.DefaultContractOrderEmployee) {
 
-        contractOrderID = row.ContractOrderID;
+        contractOrderID = row.ContractOrderEmployeeID;
       }
     });
 

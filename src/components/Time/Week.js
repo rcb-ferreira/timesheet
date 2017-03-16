@@ -95,6 +95,7 @@ export default class TableExampleComplex extends React.Component {
     let contID = auth.getDefaultContractOrderID();
 
     this.totalNormalTime = 0;
+    this.totalOtherTime = 0;
     api.getDay(empID, contID, day, JSON.parse(token), range)
       .then(res => {
 
@@ -114,6 +115,8 @@ export default class TableExampleComplex extends React.Component {
                   this.otherTime += row.value
                 }
               });
+
+              this.totalOtherTime += this.otherTime
               tableData[index].otherTime = this.otherTime
             }
           });
@@ -232,7 +235,7 @@ export default class TableExampleComplex extends React.Component {
         <TableRow >
           <TableRowColumn colSpan="2">Total</TableRowColumn>
           <TableRowColumn>{this.totalNormalTime}</TableRowColumn>
-          <TableRowColumn>&nbsp;</TableRowColumn>
+          <TableRowColumn>{this.totalOtherTime}</TableRowColumn>
         </TableRow>
 
       </TableBody>

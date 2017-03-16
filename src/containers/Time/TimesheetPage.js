@@ -6,19 +6,6 @@ import React, { Component } from 'react';
 // import TableDay from '../../components/Time/Day';
 import TableWeek from '../../components/Time/Week';
 
-// const styles = {
-//   slide: {
-//     padding: 0,
-//     minHeight: 300
-//   },
-//   tabs: {
-//     opacity: '0.8'
-//   },
-//   tab: {
-//     color: '#212121'
-//   }
-// };
-
 class TimesheetPage extends Component {
 
 

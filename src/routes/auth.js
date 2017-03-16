@@ -44,12 +44,31 @@ var auth = {
 
       if (row.DefaultContractOrderEmployee) {
 
-        contractOrderID = row.ContractOrderEmployeeID;
+        contractOrderID = row.ContractOrderID;
       }
     });
 
     if (contractOrderID > 0) {
       return contractOrderID;
+    }
+
+    return null;
+  },
+
+  getDefaultContractOrderEmployeeID() {
+    let orders = JSON.parse(localStorage.getItem('contractorders'));
+
+    let employeeID = 0
+    orders.map(async row => {
+
+      if (row.DefaultContractOrderEmployee) {
+
+        employeeID = row.ContractOrderEmployeeID;
+      }
+    });
+
+    if (employeeID > 0) {
+      return employeeID;
     }
 
     return null;

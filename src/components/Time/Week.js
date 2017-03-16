@@ -92,7 +92,7 @@ export default class TableExampleComplex extends React.Component {
     let day = moment().subtract(index, 'week').endOf('week').format("YYYY-MM-DD")
     let range = 7
     let empID = auth.getEmployeeID();
-    let contID = auth.getDefaultContractOrderID();
+    let contID = auth.getDefaultContractOrderEmployeeID();
 
     this.totalNormalTime = 0;
     this.totalOtherTime = 0;
